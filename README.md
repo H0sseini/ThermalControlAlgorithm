@@ -1,1 +1,3 @@
 # ThermalControlAlgorithm
+
+This code is dedicated to recieve the temperature data from sensors (AD590, DS1820, etc.) and then use the data to calculate the temperature for various components. In doing so, one component may have up to three (scalble) sensors and the code should assign a reasonble temperature for the component based on the data recieved from sensors. Furthermore, the code is able to detect abnormalities in the behaviour of sensors and ignore the data from those sensors. After detecting the temperature, based on the component, the algorithm detects whether or not the component is in its healthy conditions and if not, tries to turn it off or turn on heaters in order to avoid freezing.
