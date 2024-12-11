@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include <string>
 #include <chrono>
@@ -17,6 +15,18 @@ using namespace std;
 
 vector<TCSComponents> TCS()
 {
+	/*
+	* This function handles all thermal functions needed for the algorithm.
+	* first, fetching the data from headers.
+	* there are three sperate headers: components, heaters and sensors
+	* in which there are .csv data packed about components, heaters and sensors, respectively.
+	* After that, get the data from sensors.
+	* Next, set components' temperature and decide what to do about them, specially sending RIDs.
+	* Last, check whether anything should be done regarding the active members of thermal algorithm which
+	* in this algorithm is just heaters but it can be extended to other method and hardware as well.
+	* In each step, the health of thermal sub components and materials as well as the whole algorithm is checked
+	* and respected RIDs are sent when something in violation of thermal control standards and procedures happens.
+	*/
 
 	vector<TCSComponents>			tcsComponents(numRecords);
 
