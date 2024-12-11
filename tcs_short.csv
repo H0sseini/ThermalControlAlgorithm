@@ -1,0 +1,6 @@
+﻿Component,PID No.,Temperature Sensor,Heater,Component Temperature,Component Heater Status,Max Op Temp,Max NOp Temp,min Op Temp,min NOp Temp,STATUS,TCS State (T/F),No of Valid Heaters,No of Valid Sensor,Start Heat,Stop Heat
+Propulsion  Tank,1,PRP_temp1,PRP_temp2,PRP_temp3,PRP_heater1,PRP_heater2,200,0,550,650,-250,-350,0,1,2,3,50,70
+Magnet torque driver,2,MTD_temp1,MTD_temp2,-,-,-,200,0,750,850,-250,-350,0,1,2,2,-150,-100
+ODS,3,ODS_temp1,ODS_temp2,-,-,-,200,0,550,650,-200,-300,0,1,0,2,-100,-50
+Battery,4,BAT_temp1,BAT_temp2,BAT_temp3,BAT_heater1,BAT_heater2,200,0,400,500,0,-100,0,1,1,1,70,90
+CDH,5,CDH_temp1,CDH_temp2,-,-,-,200,0,550,650,-200,-300,0,1,0,1,-200,-150

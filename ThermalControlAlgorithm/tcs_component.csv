@@ -1,0 +1,9 @@
+﻿Component,PID,sensor1,sensor2,sensor3,Heater1,Heater2,ComponentTemperature,ComponentHeaterStatus,MaxOpTemp,MaxNopTemp,MinOpTemp,MinNopTemp,STATUS,TCSState,ValidHeaters,ValidSensor,StartHeat,StopHeat
+Propulsion Tank,1,1,1,1,1,1,250,0,550,650,-250,-350,0,1,2,3,50,70
+Magnet torque driver,2,1,1,0,0,0,250,0,750,850,-250,-350,0,1,0,2,-150,-100
+ODS,3,1,0,0,0,0,250,0,550,650,-200,-300,0,1,0,1,-100,-50
+Battery,4,1,1,1,1,1,250,0,400,500,0,-100,0,1,2,3,70,90
+CDH,5,1,1,0,1,0,250,0,550,650,-200,-300,0,1,1,2,-200,-150
+SWIR,6,1,1,0,1,1,250,0,550,650,-200,-300,0,1,2,2,-200,-150
+MM,7,1,0,0,1,1,250,0,550,650,-200,-300,0,1,2,1,-200,-150
+Dosimetry,8,1,0,0,1,0,250,0,550,650,-200,-300,0,1,1,1,-50,0
