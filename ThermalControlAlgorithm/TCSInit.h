@@ -1,9 +1,9 @@
 
-#include <iostream>
-#include <string>
-#include <fstream>
+//#include <iostream>
+//#include <string>
+//#include <fstream>
 #include <vector>
-#include <sstream>
+//#include <sstream>
 #include "components.h"
 #include "sensors.h"
 #include "heaters.h"
@@ -21,8 +21,8 @@ using namespace std;
 
 // Vector defining names of components
 vector<string> CompsNames = {
-	"Propulsion Tank", "Magnet torque driver", "ODS", "Battery",
-	"CDH", "SWIR", "MM", "Dosimetry"
+	"Comp. 1", "Comp. 2", "Comp. 3", "Comp. 4",
+	"Comp. 5", "Comp. 6", "Comp. 7", "Comp. 8"
 };
 
 // Vector checking which of 3 sensors has the highest and lowest value(0 lowest, 2 highest)
@@ -684,11 +684,11 @@ int parseHeatsBinaryData(TCSComponents& Component, int num, int heater_number) {
 
 }
 
-vector<TCSComponents> InitializeData() {
+void InitializeData(vector<TCSComponents>& AllComponents) {
 	int recordSize = sizeof(CompsData);
 	int numRecords = comps_bin_len / recordSize;
 
-	vector<TCSComponents>		AllComponents(numRecords);
+	
 	int sensorNumber = 0;
 	int heaterNumber = 0;
 	for (int i = 0; i < numRecords; i++) {
@@ -736,132 +736,132 @@ vector<TCSComponents> InitializeData() {
 			
 	}
 
-	return AllComponents;
+	
 } //
 
 
 
 
 // reading input data from .csv file  (Obsolete)
-class CSVReader {
-
-private:
-	string					filePath;
-	vector<string>			headers;
-	vector<vector<string>>	data;
-
-public:
-	//Constructor
-	CSVReader(const string& filePath):
-		filePath(filePath) {}
-
-	// Function to parse the CSV file
-	bool parseCSV() {
-		ifstream	file(filePath);
-		if (!file.is_open()) {
-			cerr << "Error: could not open file" << filePath << endl;
-			return false;
-		}
-		
-		string		line;
-		bool isHeader = true;
-
-		while (getline(file, line)) {
-			stringstream		lineStream(line);
-			string				cell;
-			vector<string>		row;
-
-			while (getline(lineStream, cell, ',')) {
-				row.push_back(cell);
-			}
-
-			if (isHeader) {
-				headers = row;
-				isHeader = false;
-			}
-			else {
-				data.push_back(row);
-			}
-		}
-
-		file.close();
-		return true;
-	}
-
-	//Function to get the headers
-	const vector<string>& getHeaders()
-		const {
-		return headers;
-	}
-
-	//Function to get a specific column's data
-	vector<string> getColumnData(const string& header) const {
-		vector<string>		columnData;
-		auto it = find(headers.begin(), headers.end(), header);
-
-		if (it == headers.end()) {
-			cerr << "Error: Header\"" << header << "\" not found" << endl;
-			return columnData;
-		}
-
-		size_t colIndex =
-			distance(headers.begin(), it);
-		for (const auto& row : data) {
-			if (colIndex < row.size()) {
-				columnData.push_back(row[colIndex]);
-			}
-		}
-		return columnData;
-	}
-
-	//Function to create columns with the name of the respected header
-	vector<vector<string>> getAllColumns()
-	{
-		
-		
-		size_t header_size = getHeaders().size();
-		size_t component_size = getColumnData(getHeaders()[0]).size();
-		
-		vector<vector<string>>			AllComponents(component_size, vector<string>(header_size, ""));
-		for (int comp = 0; comp < component_size; comp++)
-		{
-			for (int head = 0; head < header_size; head++)
-			{
-				AllComponents[comp][head] = getColumnData(getHeaders()[head])[comp];
-			}
-		}
-		
-		return AllComponents;
-
-	}
-
-	vector<size_t> getSize()
-	{
-		size_t header_size = getHeaders().size();
-		cout << header_size;
-		size_t component_size = getColumnData(getHeaders()[0]).size();
-		vector<size_t>		a = { component_size, header_size };
-		return a;
-	}
-
-
-
-	
-
-	//Function to display the parsed data (for debugging)
-
-	void displayData() const {
-		for (const auto& header : headers) {
-			cout << header << "\t";
-		}
-		cout << endl;
-
-		for (const auto& row : data) {
-			for (const auto& cell : row) {
-				cout << cell << "\t";
-			}
-			cout << endl;
-		}
-	}
-
-};
+//class CSVReader {
+//
+//private:
+//	string					filePath;
+//	vector<string>			headers;
+//	vector<vector<string>>	data;
+//
+//public:
+//	//Constructor
+//	CSVReader(const string& filePath):
+//		filePath(filePath) {}
+//
+//	// Function to parse the CSV file
+//	bool parseCSV() {
+//		ifstream	file(filePath);
+//		if (!file.is_open()) {
+//			cerr << "Error: could not open file" << filePath << endl;
+//			return false;
+//		}
+//		
+//		string		line;
+//		bool isHeader = true;
+//
+//		while (getline(file, line)) {
+//			stringstream		lineStream(line);
+//			string				cell;
+//			vector<string>		row;
+//
+//			while (getline(lineStream, cell, ',')) {
+//				row.push_back(cell);
+//			}
+//
+//			if (isHeader) {
+//				headers = row;
+//				isHeader = false;
+//			}
+//			else {
+//				data.push_back(row);
+//			}
+//		}
+//
+//		file.close();
+//		return true;
+//	}
+//
+//	//Function to get the headers
+//	const vector<string>& getHeaders()
+//		const {
+//		return headers;
+//	}
+//
+//	//Function to get a specific column's data
+//	vector<string> getColumnData(const string& header) const {
+//		vector<string>		columnData;
+//		auto it = find(headers.begin(), headers.end(), header);
+//
+//		if (it == headers.end()) {
+//			cerr << "Error: Header\"" << header << "\" not found" << endl;
+//			return columnData;
+//		}
+//
+//		size_t colIndex =
+//			distance(headers.begin(), it);
+//		for (const auto& row : data) {
+//			if (colIndex < row.size()) {
+//				columnData.push_back(row[colIndex]);
+//			}
+//		}
+//		return columnData;
+//	}
+//
+//	//Function to create columns with the name of the respected header
+//	vector<vector<string>> getAllColumns()
+//	{
+//		
+//		
+//		size_t header_size = getHeaders().size();
+//		size_t component_size = getColumnData(getHeaders()[0]).size();
+//		
+//		vector<vector<string>>			AllComponents(component_size, vector<string>(header_size, ""));
+//		for (int comp = 0; comp < component_size; comp++)
+//		{
+//			for (int head = 0; head < header_size; head++)
+//			{
+//				AllComponents[comp][head] = getColumnData(getHeaders()[head])[comp];
+//			}
+//		}
+//		
+//		return AllComponents;
+//
+//	}
+//
+//	vector<size_t> getSize()
+//	{
+//		size_t header_size = getHeaders().size();
+//		cout << header_size;
+//		size_t component_size = getColumnData(getHeaders()[0]).size();
+//		vector<size_t>		a = { component_size, header_size };
+//		return a;
+//	}
+//
+//
+//
+//	
+//
+//	//Function to display the parsed data (for debugging)
+//
+//	void displayData() const {
+//		for (const auto& header : headers) {
+//			cout << header << "\t";
+//		}
+//		cout << endl;
+//
+//		for (const auto& row : data) {
+//			for (const auto& cell : row) {
+//				cout << cell << "\t";
+//			}
+//			cout << endl;
+//		}
+//	}
+//
+//};
