@@ -101,3 +101,5 @@ with open(input_file, "rb") as bin_file, open(output_file, "w") as header_file:
 print(f"Binary file converted to C++ array in {output_file}.")
 ```
 By default, all files are located in your current directory but you can change them as you need.
+
+A RIDcontents.csv file is needed as it is provided in the list of files. Remember that the number of RIDs must match the sum of RIDs for components, sensors, and heaters. Description about the order of RIDs are provided in the ThermalControlAlgorithm.cpp above GetRIDData() function.
