@@ -3,6 +3,7 @@
 This code is dedicated to receiving the temperature data from sensors (AD590, DS1820, etc.) and then using the data to calculate the temperature for various components. In doing so, one component may have up to three (scalable) sensors and the code should assign a reasonable temperature for the component based on the data received from sensors. Furthermore, the code can detect abnormalities in the behavior of sensors and ignore the data from those sensors. After detecting the temperature, based on the component, the algorithm detects whether or not the component is in its healthy condition and if not, tries to turn it off or turn on heaters to avoid freezing. In this code, a total of 8 components are used but you can add more components or edit the current ones according to your need. All you need to do is edit three headers: components.h, sensors.h, and heaters.h. You can specify the components' names in the TCSinit.h by changing CompsNames variable.
 To add your header files, you need to change your .csv files containing items to binary and then header files.
 To change from .csv to binary, you can use the following Python code:
+```
 import struct
 
 # Input CSV file and output binary file
@@ -59,10 +60,10 @@ with open(csv_file, 'r') as csv, open(binary_file, 'wb') as bin_file:
         bin_file.write(packed_data)
 
 print("CSV with mixed types converted to binary successfully.")
-
+```
 For each part, the items that are needed in your .csv file are described. You can comment/uncomment each part (components, sensors, and heaters) to get your relevant binary file. In the component .csv file, each component can have up to three sensors and up to two heaters. You should use 1 for each available item (sensor1, sensor2, sensor3, heater1, and heater2) and 0 for otherwise. Status is for on/off component and state is for its health. For sensors, the default fault rate is zero. You can use any integer ranging from -500 (-50 C) to 1500 (150 C) for previous and online values. It should be noted that to avoid double numbers, all temperatures are multiplied by 10 in the code.
 After creating your binary files, you can use the following Python code to get your header files. Again, comment/uncomment each part to get your relevant headers.
-
+```
 import os
 # component
 #input_file = "components.bin"  # Input binary file
@@ -98,5 +99,5 @@ with open(input_file, "rb") as bin_file, open(output_file, "w") as header_file:
     header_file.write(f"unsigned int heats_bin_len = {len(data)};\n")
 
 print(f"Binary file converted to C++ array in {output_file}.")
-
+```
 By default, all files are located in your current directory but you can change them as you need.
