@@ -1,4 +1,4 @@
-# ThermalControlAlgorithm
+# Thermal Control Algorithm
 
 This code is dedicated to receiving the temperature data from sensors (AD590, DS1820, etc.) and then using the data to calculate the temperature for various components. In doing so, one component may have up to three (scalable) sensors and the code should assign a reasonable temperature for the component based on the data received from sensors. Furthermore, the code can detect abnormalities in the behavior of sensors and ignore the data from those sensors. After detecting the temperature, based on the component, the algorithm detects whether or not the component is in its healthy condition and if not, tries to turn it off or turn on heaters to avoid freezing. In this code, a total of 8 components are used but you can add more components or edit the current ones according to your need. All you need to do is edit three headers: components.h, sensors.h, and heaters.h. You can specify the components' names in the TCSinit.h by changing CompsNames variable.
 To add your header files, you need to change your .csv files containing items to binary and then header files.
