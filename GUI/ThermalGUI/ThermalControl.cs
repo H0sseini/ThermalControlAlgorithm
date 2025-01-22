@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
@@ -19,8 +19,9 @@ namespace ThermalGUI
         
         Dictionary<int, string> RIDList = new Dictionary<int, string>();
 
-        //time to update screen       
-        private int TCS_RUN_INTERVAL = 10000;
+        //time to update screen
+        private int TCS_RUN_INTERVAL;
+
 
         public ThermalControl()
         {
