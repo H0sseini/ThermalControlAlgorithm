@@ -29,12 +29,12 @@ jobs:
         choco install visualstudio2022-workload-vctools -y
 
       # Set up MSBuild environment
-      - name: Set up MSBuild
-        uses: microsoft/setup-msbuild@v1
+    - name: Set up MSBuild
+      uses: microsoft/setup-msbuild@v1
 
       # Optional: Verify MSBuild version
-      - name: Verify MSBuild installation
-        run: msbuild /version
+    - name: Verify MSBuild installation
+      run: msbuild /version
         
     # Build the C++ project
     - name: Build C++ DLL
