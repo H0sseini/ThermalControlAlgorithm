@@ -19,16 +19,8 @@ namespace ThermalGUI
         
         Dictionary<int, string> RIDList = new Dictionary<int, string>();
 
-        //time to update screen
-<<<<<<< HEAD
-        //[DllImport("ThermalControlAlgorithm.dll", EntryPoint = "TCS_RUN_INTERVAL", CallingConvention = CallingConvention.Cdecl)]
-        //public static extern ref int TCS_RUN_INTERVAL;
-        private int TCS_RUN_INTERVAL = 10000; //time to update screen in miliseconds
-=======
-        
+        //time to update screen       
         private int TCS_RUN_INTERVAL = 10000;
-
->>>>>>> 346009d3cbb0fd4d7141c41c93a6204dbedd4bfd
 
         public ThermalControl()
         {

@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 //#include <iostream>
+=======
+#include <iostream>
+>>>>>>> 346009d3cbb0fd4d7141c41c93a6204dbedd4bfd
 #include <string>
 //#include <chrono>
 #include <thread>
@@ -7,7 +11,13 @@
 
 constexpr auto TCS_RESET_TIME = 1800;	// seconds to reset everything in TCS
 <<<<<<< HEAD
+<<<<<<< HEAD
 constexpr auto TCS_RUN_INTERVAL = 10; //seconds to run the tcs code. this parameter is sent to c# for visualization)
+=======
+extern "C" {
+	__declspec(dllexport) constexpr auto TCS_RUN_INTERVAL = 10; //seconds to run the tcs code. this parameter is sent to c# for visualization)
+}
+>>>>>>> 346009d3cbb0fd4d7141c41c93a6204dbedd4bfd
 =======
 extern "C" {
 	__declspec(dllexport) constexpr auto TCS_RUN_INTERVAL = 10; //seconds to run the tcs code. this parameter is sent to c# for visualization)
@@ -60,7 +70,10 @@ void TCS(vector<TCSComponents>& tcsComponents)
 		}
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 	//cout << "TCS called" << endl;
+=======
+>>>>>>> 346009d3cbb0fd4d7141c41c93a6204dbedd4bfd
 =======
 >>>>>>> 346009d3cbb0fd4d7141c41c93a6204dbedd4bfd
 	
@@ -452,9 +465,12 @@ extern "C" __declspec(dllexport) int mainFunc()
 	//Initializing components
 	//cout << "initializing" << endl;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	InitializeData(tcsComponents);
 	
 =======
+=======
+>>>>>>> 346009d3cbb0fd4d7141c41c93a6204dbedd4bfd
 	InitializeData(tcsBackup);
 	tcsComponents = tcsBackup;
 	RIDsize = GetRIDSize();
@@ -462,6 +478,9 @@ extern "C" __declspec(dllexport) int mainFunc()
 	InitializeRID();
 	GetRIDData();
 
+<<<<<<< HEAD
+>>>>>>> 346009d3cbb0fd4d7141c41c93a6204dbedd4bfd
+=======
 >>>>>>> 346009d3cbb0fd4d7141c41c93a6204dbedd4bfd
 	thread run_tcs([&]() {
 		while (true) {
@@ -474,7 +493,12 @@ extern "C" __declspec(dllexport) int mainFunc()
 		while (true) {
 			//cout << "TCS Reset." << endl;
 <<<<<<< HEAD
+<<<<<<< HEAD
 			InitializeData(tcsComponents);
+=======
+			tcsComponents = tcsBackup;
+			
+>>>>>>> 346009d3cbb0fd4d7141c41c93a6204dbedd4bfd
 =======
 			tcsComponents = tcsBackup;
 			

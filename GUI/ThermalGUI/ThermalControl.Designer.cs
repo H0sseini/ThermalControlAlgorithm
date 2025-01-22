@@ -43,23 +43,21 @@
             this.CompMaxNopTemp = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.CompTCSState = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.CompOBC = new System.Windows.Forms.TextBox();
+            this.textBox35 = new System.Windows.Forms.TextBox();
             this.label45 = new System.Windows.Forms.Label();
-            this.CompTCSBypass = new System.Windows.Forms.TextBox();
+            this.CompTCSState = new System.Windows.Forms.TextBox();
             this.label44 = new System.Windows.Forms.Label();
             this.NoValidHeaters = new System.Windows.Forms.TextBox();
             this.label43 = new System.Windows.Forms.Label();
             this.NoValidSensors = new System.Windows.Forms.TextBox();
             this.label42 = new System.Windows.Forms.Label();
-            this.CompStopHeatNop = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label38 = new System.Windows.Forms.Label();
-            this.CompStartHeatNop = new System.Windows.Forms.TextBox();
+            this.textBox32 = new System.Windows.Forms.TextBox();
             this.label39 = new System.Windows.Forms.Label();
-            this.CompStopHeatOp = new System.Windows.Forms.TextBox();
+            this.textBox33 = new System.Windows.Forms.TextBox();
             this.label40 = new System.Windows.Forms.Label();
-            this.CompStartHeatOp = new System.Windows.Forms.TextBox();
+            this.textBox34 = new System.Windows.Forms.TextBox();
             this.label41 = new System.Windows.Forms.Label();
             this.CompMinNopTemp = new System.Windows.Forms.TextBox();
             this.label37 = new System.Windows.Forms.Label();
@@ -78,7 +76,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.Sensor2Defined = new System.Windows.Forms.TextBox();
-            this.Sensor2Fault = new System.Windows.Forms.TextBox();
+            this.Sesnor2Fault = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -90,13 +88,13 @@
             this.Sensor2State = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.Sensor3Defined = new System.Windows.Forms.TextBox();
+            this.Sesnor3Defined = new System.Windows.Forms.TextBox();
             this.Sensor3Fault = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.Sensor3Previous = new System.Windows.Forms.TextBox();
-            this.Sensor3PID = new System.Windows.Forms.TextBox();
+            this.Sesnor3PID = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.Sensor3Online = new System.Windows.Forms.TextBox();
@@ -125,30 +123,6 @@
             this.ReceiveData = new System.Windows.Forms.Button();
             this.SendData = new System.Windows.Forms.Button();
             this.FetchComp = new System.Windows.Forms.Button();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.SendSen3 = new System.Windows.Forms.TextBox();
-            this.SendSen2 = new System.Windows.Forms.TextBox();
-            this.SendSen1 = new System.Windows.Forms.TextBox();
-            this.SendBypass = new System.Windows.Forms.ComboBox();
-            this.SendOBC = new System.Windows.Forms.ComboBox();
-            this.SendCompStat = new System.Windows.Forms.ComboBox();
-            this.label50 = new System.Windows.Forms.Label();
-            this.label49 = new System.Windows.Forms.Label();
-            this.label48 = new System.Windows.Forms.Label();
-            this.label47 = new System.Windows.Forms.Label();
-            this.label46 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label51 = new System.Windows.Forms.Label();
-            this.RIDs = new System.Windows.Forms.TextBox();
-            this.eventReport = new System.Windows.Forms.Button();
-            this.label52 = new System.Windows.Forms.Label();
-            this.label53 = new System.Windows.Forms.Label();
-            this.SendStartHOp = new System.Windows.Forms.TextBox();
-            this.SendStopHOp = new System.Windows.Forms.TextBox();
-            this.SendStartHNop = new System.Windows.Forms.TextBox();
-            this.SendStopHNop = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -157,13 +131,12 @@
             this.groupBox8.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // selectComponentLabel
             // 
             this.selectComponentLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.selectComponentLabel.Location = new System.Drawing.Point(696, 354);
+            this.selectComponentLabel.Location = new System.Drawing.Point(696, 364);
             this.selectComponentLabel.Name = "selectComponentLabel";
             this.selectComponentLabel.Size = new System.Drawing.Size(192, 30);
             this.selectComponentLabel.TabIndex = 0;
@@ -172,11 +145,10 @@
             // ComponentSelect
             // 
             this.ComponentSelect.FormattingEnabled = true;
-            this.ComponentSelect.Location = new System.Drawing.Point(701, 381);
+            this.ComponentSelect.Location = new System.Drawing.Point(701, 400);
             this.ComponentSelect.Name = "ComponentSelect";
             this.ComponentSelect.Size = new System.Drawing.Size(173, 21);
             this.ComponentSelect.TabIndex = 1;
-            this.ComponentSelect.SelectedIndexChanged += new System.EventHandler(this.ComponentSelect_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -189,7 +161,6 @@
             // 
             // CompPIDBox
             // 
-            this.CompPIDBox.Enabled = false;
             this.CompPIDBox.Location = new System.Drawing.Point(123, 16);
             this.CompPIDBox.Name = "CompPIDBox";
             this.CompPIDBox.Size = new System.Drawing.Size(60, 20);
@@ -197,11 +168,11 @@
             // 
             // CompTemp
             // 
-            this.CompTemp.Enabled = false;
             this.CompTemp.Location = new System.Drawing.Point(123, 42);
             this.CompTemp.Name = "CompTemp";
             this.CompTemp.Size = new System.Drawing.Size(60, 20);
             this.CompTemp.TabIndex = 5;
+            this.CompTemp.Text = "1";
             // 
             // label2
             // 
@@ -216,7 +187,6 @@
             // 
             this.CompStatus.Location = new System.Drawing.Point(123, 65);
             this.CompStatus.Name = "CompStatus";
-            this.CompStatus.ReadOnly = true;
             this.CompStatus.Size = new System.Drawing.Size(60, 20);
             this.CompStatus.TabIndex = 7;
             // 
@@ -231,7 +201,6 @@
             // 
             // CompMaxOpTemp
             // 
-            this.CompMaxOpTemp.Enabled = false;
             this.CompMaxOpTemp.Location = new System.Drawing.Point(123, 105);
             this.CompMaxOpTemp.Name = "CompMaxOpTemp";
             this.CompMaxOpTemp.Size = new System.Drawing.Size(60, 20);
@@ -248,7 +217,6 @@
             // 
             // CompMinOpTemp
             // 
-            this.CompMinOpTemp.Enabled = false;
             this.CompMinOpTemp.Location = new System.Drawing.Point(123, 139);
             this.CompMinOpTemp.Name = "CompMinOpTemp";
             this.CompMinOpTemp.Size = new System.Drawing.Size(60, 20);
@@ -265,7 +233,6 @@
             // 
             // CompMaxNopTemp
             // 
-            this.CompMaxNopTemp.Enabled = false;
             this.CompMaxNopTemp.Location = new System.Drawing.Point(123, 175);
             this.CompMaxNopTemp.Name = "CompMaxNopTemp";
             this.CompMaxNopTemp.Size = new System.Drawing.Size(60, 20);
@@ -282,23 +249,21 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.CompTCSState);
-            this.groupBox1.Controls.Add(this.label26);
-            this.groupBox1.Controls.Add(this.CompOBC);
+            this.groupBox1.Controls.Add(this.textBox35);
             this.groupBox1.Controls.Add(this.label45);
-            this.groupBox1.Controls.Add(this.CompTCSBypass);
+            this.groupBox1.Controls.Add(this.CompTCSState);
             this.groupBox1.Controls.Add(this.label44);
             this.groupBox1.Controls.Add(this.NoValidHeaters);
             this.groupBox1.Controls.Add(this.label43);
             this.groupBox1.Controls.Add(this.NoValidSensors);
             this.groupBox1.Controls.Add(this.label42);
-            this.groupBox1.Controls.Add(this.CompStopHeatNop);
+            this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.label38);
-            this.groupBox1.Controls.Add(this.CompStartHeatNop);
+            this.groupBox1.Controls.Add(this.textBox32);
             this.groupBox1.Controls.Add(this.label39);
-            this.groupBox1.Controls.Add(this.CompStopHeatOp);
+            this.groupBox1.Controls.Add(this.textBox33);
             this.groupBox1.Controls.Add(this.label40);
-            this.groupBox1.Controls.Add(this.CompStartHeatOp);
+            this.groupBox1.Controls.Add(this.textBox34);
             this.groupBox1.Controls.Add(this.label41);
             this.groupBox1.Controls.Add(this.CompMinNopTemp);
             this.groupBox1.Controls.Add(this.label37);
@@ -316,35 +281,17 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Location = new System.Drawing.Point(12, 23);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(213, 581);
+            this.groupBox1.Size = new System.Drawing.Size(213, 538);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Component Properties";
             // 
-            // CompTCSState
+            // textBox35
             // 
-            this.CompTCSState.Enabled = false;
-            this.CompTCSState.Location = new System.Drawing.Point(123, 516);
-            this.CompTCSState.Name = "CompTCSState";
-            this.CompTCSState.Size = new System.Drawing.Size(60, 20);
-            this.CompTCSState.TabIndex = 33;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(9, 516);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(59, 13);
-            this.label26.TabIndex = 32;
-            this.label26.Text = "TCS State:";
-            // 
-            // CompOBC
-            // 
-            this.CompOBC.Location = new System.Drawing.Point(123, 449);
-            this.CompOBC.Name = "CompOBC";
-            this.CompOBC.ReadOnly = true;
-            this.CompOBC.Size = new System.Drawing.Size(84, 20);
-            this.CompOBC.TabIndex = 31;
+            this.textBox35.Location = new System.Drawing.Point(123, 449);
+            this.textBox35.Name = "textBox35";
+            this.textBox35.Size = new System.Drawing.Size(60, 20);
+            this.textBox35.TabIndex = 31;
             // 
             // label45
             // 
@@ -355,13 +302,12 @@
             this.label45.TabIndex = 30;
             this.label45.Text = "OBCorGS:";
             // 
-            // CompTCSBypass
+            // CompTCSState
             // 
-            this.CompTCSBypass.Location = new System.Drawing.Point(123, 479);
-            this.CompTCSBypass.Name = "CompTCSBypass";
-            this.CompTCSBypass.ReadOnly = true;
-            this.CompTCSBypass.Size = new System.Drawing.Size(60, 20);
-            this.CompTCSBypass.TabIndex = 29;
+            this.CompTCSState.Location = new System.Drawing.Point(123, 479);
+            this.CompTCSState.Name = "CompTCSState";
+            this.CompTCSState.Size = new System.Drawing.Size(60, 20);
+            this.CompTCSState.TabIndex = 29;
             // 
             // label44
             // 
@@ -374,7 +320,6 @@
             // 
             // NoValidHeaters
             // 
-            this.NoValidHeaters.Enabled = false;
             this.NoValidHeaters.Location = new System.Drawing.Point(123, 418);
             this.NoValidHeaters.Name = "NoValidHeaters";
             this.NoValidHeaters.Size = new System.Drawing.Size(60, 20);
@@ -391,7 +336,6 @@
             // 
             // NoValidSensors
             // 
-            this.NoValidSensors.Enabled = false;
             this.NoValidSensors.Location = new System.Drawing.Point(123, 386);
             this.NoValidSensors.Name = "NoValidSensors";
             this.NoValidSensors.Size = new System.Drawing.Size(60, 20);
@@ -406,13 +350,12 @@
             this.label42.TabIndex = 24;
             this.label42.Text = "# Valid Sensors:";
             // 
-            // CompStopHeatNop
+            // textBox1
             // 
-            this.CompStopHeatNop.Location = new System.Drawing.Point(123, 351);
-            this.CompStopHeatNop.Name = "CompStopHeatNop";
-            this.CompStopHeatNop.ReadOnly = true;
-            this.CompStopHeatNop.Size = new System.Drawing.Size(60, 20);
-            this.CompStopHeatNop.TabIndex = 23;
+            this.textBox1.Location = new System.Drawing.Point(123, 351);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(60, 20);
+            this.textBox1.TabIndex = 23;
             // 
             // label38
             // 
@@ -423,13 +366,12 @@
             this.label38.TabIndex = 22;
             this.label38.Text = "Stop Heater Nop.:";
             // 
-            // CompStartHeatNop
+            // textBox32
             // 
-            this.CompStartHeatNop.Location = new System.Drawing.Point(123, 314);
-            this.CompStartHeatNop.Name = "CompStartHeatNop";
-            this.CompStartHeatNop.ReadOnly = true;
-            this.CompStartHeatNop.Size = new System.Drawing.Size(60, 20);
-            this.CompStartHeatNop.TabIndex = 21;
+            this.textBox32.Location = new System.Drawing.Point(123, 314);
+            this.textBox32.Name = "textBox32";
+            this.textBox32.Size = new System.Drawing.Size(60, 20);
+            this.textBox32.TabIndex = 21;
             // 
             // label39
             // 
@@ -440,13 +382,12 @@
             this.label39.TabIndex = 20;
             this.label39.Text = "Start Heater Nop.:";
             // 
-            // CompStopHeatOp
+            // textBox33
             // 
-            this.CompStopHeatOp.Location = new System.Drawing.Point(123, 278);
-            this.CompStopHeatOp.Name = "CompStopHeatOp";
-            this.CompStopHeatOp.ReadOnly = true;
-            this.CompStopHeatOp.Size = new System.Drawing.Size(60, 20);
-            this.CompStopHeatOp.TabIndex = 19;
+            this.textBox33.Location = new System.Drawing.Point(123, 278);
+            this.textBox33.Name = "textBox33";
+            this.textBox33.Size = new System.Drawing.Size(60, 20);
+            this.textBox33.TabIndex = 19;
             // 
             // label40
             // 
@@ -457,13 +398,12 @@
             this.label40.TabIndex = 18;
             this.label40.Text = "Stop Heater Op.:";
             // 
-            // CompStartHeatOp
+            // textBox34
             // 
-            this.CompStartHeatOp.Location = new System.Drawing.Point(123, 244);
-            this.CompStartHeatOp.Name = "CompStartHeatOp";
-            this.CompStartHeatOp.ReadOnly = true;
-            this.CompStartHeatOp.Size = new System.Drawing.Size(60, 20);
-            this.CompStartHeatOp.TabIndex = 17;
+            this.textBox34.Location = new System.Drawing.Point(123, 244);
+            this.textBox34.Name = "textBox34";
+            this.textBox34.Size = new System.Drawing.Size(60, 20);
+            this.textBox34.TabIndex = 17;
             // 
             // label41
             // 
@@ -476,7 +416,6 @@
             // 
             // CompMinNopTemp
             // 
-            this.CompMinNopTemp.Enabled = false;
             this.CompMinNopTemp.Location = new System.Drawing.Point(123, 212);
             this.CompMinNopTemp.Name = "CompMinNopTemp";
             this.CompMinNopTemp.Size = new System.Drawing.Size(60, 20);
@@ -514,15 +453,13 @@
             // 
             // Sensor1Defined
             // 
-            this.Sensor1Defined.Enabled = false;
             this.Sensor1Defined.Location = new System.Drawing.Point(101, 16);
             this.Sensor1Defined.Name = "Sensor1Defined";
-            this.Sensor1Defined.Size = new System.Drawing.Size(71, 20);
+            this.Sensor1Defined.Size = new System.Drawing.Size(60, 20);
             this.Sensor1Defined.TabIndex = 3;
             // 
             // Sensor1Fault
             // 
-            this.Sensor1Fault.Enabled = false;
             this.Sensor1Fault.Location = new System.Drawing.Point(101, 160);
             this.Sensor1Fault.Name = "Sensor1Fault";
             this.Sensor1Fault.Size = new System.Drawing.Size(60, 20);
@@ -557,7 +494,6 @@
             // 
             // Sensor1Previous
             // 
-            this.Sensor1Previous.Enabled = false;
             this.Sensor1Previous.Location = new System.Drawing.Point(101, 129);
             this.Sensor1Previous.Name = "Sensor1Previous";
             this.Sensor1Previous.Size = new System.Drawing.Size(60, 20);
@@ -565,7 +501,6 @@
             // 
             // Sensor1PID
             // 
-            this.Sensor1PID.Enabled = false;
             this.Sensor1PID.Location = new System.Drawing.Point(101, 42);
             this.Sensor1PID.Name = "Sensor1PID";
             this.Sensor1PID.Size = new System.Drawing.Size(60, 20);
@@ -593,13 +528,11 @@
             // 
             this.Sensor1Online.Location = new System.Drawing.Point(101, 95);
             this.Sensor1Online.Name = "Sensor1Online";
-            this.Sensor1Online.ReadOnly = true;
             this.Sensor1Online.Size = new System.Drawing.Size(60, 20);
             this.Sensor1Online.TabIndex = 9;
             // 
             // Sensor1State
             // 
-            this.Sensor1State.Enabled = false;
             this.Sensor1State.Location = new System.Drawing.Point(101, 68);
             this.Sensor1State.Name = "Sensor1State";
             this.Sensor1State.Size = new System.Drawing.Size(60, 20);
@@ -617,7 +550,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.Sensor2Defined);
-            this.groupBox3.Controls.Add(this.Sensor2Fault);
+            this.groupBox3.Controls.Add(this.Sesnor2Fault);
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.label14);
             this.groupBox3.Controls.Add(this.label15);
@@ -633,23 +566,21 @@
             this.groupBox3.Size = new System.Drawing.Size(213, 228);
             this.groupBox3.TabIndex = 16;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Sensor #2";
+            this.groupBox3.Text = "Sensor #1";
             // 
             // Sensor2Defined
             // 
-            this.Sensor2Defined.Enabled = false;
             this.Sensor2Defined.Location = new System.Drawing.Point(101, 16);
             this.Sensor2Defined.Name = "Sensor2Defined";
-            this.Sensor2Defined.Size = new System.Drawing.Size(75, 20);
+            this.Sensor2Defined.Size = new System.Drawing.Size(60, 20);
             this.Sensor2Defined.TabIndex = 3;
             // 
-            // Sensor2Fault
+            // Sesnor2Fault
             // 
-            this.Sensor2Fault.Enabled = false;
-            this.Sensor2Fault.Location = new System.Drawing.Point(101, 160);
-            this.Sensor2Fault.Name = "Sensor2Fault";
-            this.Sensor2Fault.Size = new System.Drawing.Size(60, 20);
-            this.Sensor2Fault.TabIndex = 13;
+            this.Sesnor2Fault.Location = new System.Drawing.Point(101, 160);
+            this.Sesnor2Fault.Name = "Sesnor2Fault";
+            this.Sesnor2Fault.Size = new System.Drawing.Size(60, 20);
+            this.Sesnor2Fault.TabIndex = 13;
             // 
             // label13
             // 
@@ -680,7 +611,6 @@
             // 
             // Sensor2Previous
             // 
-            this.Sensor2Previous.Enabled = false;
             this.Sensor2Previous.Location = new System.Drawing.Point(101, 129);
             this.Sensor2Previous.Name = "Sensor2Previous";
             this.Sensor2Previous.Size = new System.Drawing.Size(60, 20);
@@ -688,7 +618,6 @@
             // 
             // Sensor2PID
             // 
-            this.Sensor2PID.Enabled = false;
             this.Sensor2PID.Location = new System.Drawing.Point(101, 42);
             this.Sensor2PID.Name = "Sensor2PID";
             this.Sensor2PID.Size = new System.Drawing.Size(60, 20);
@@ -716,13 +645,11 @@
             // 
             this.Sensor2Online.Location = new System.Drawing.Point(101, 95);
             this.Sensor2Online.Name = "Sensor2Online";
-            this.Sensor2Online.ReadOnly = true;
             this.Sensor2Online.Size = new System.Drawing.Size(60, 20);
             this.Sensor2Online.TabIndex = 9;
             // 
             // Sensor2State
             // 
-            this.Sensor2State.Enabled = false;
             this.Sensor2State.Location = new System.Drawing.Point(101, 68);
             this.Sensor2State.Name = "Sensor2State";
             this.Sensor2State.Size = new System.Drawing.Size(60, 20);
@@ -739,13 +666,13 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.Sensor3Defined);
+            this.groupBox4.Controls.Add(this.Sesnor3Defined);
             this.groupBox4.Controls.Add(this.Sensor3Fault);
             this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.label20);
             this.groupBox4.Controls.Add(this.label21);
             this.groupBox4.Controls.Add(this.Sensor3Previous);
-            this.groupBox4.Controls.Add(this.Sensor3PID);
+            this.groupBox4.Controls.Add(this.Sesnor3PID);
             this.groupBox4.Controls.Add(this.label22);
             this.groupBox4.Controls.Add(this.label23);
             this.groupBox4.Controls.Add(this.Sensor3Online);
@@ -756,20 +683,17 @@
             this.groupBox4.Size = new System.Drawing.Size(213, 228);
             this.groupBox4.TabIndex = 16;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Sensor #3";
+            this.groupBox4.Text = "Sensor #1";
             // 
-            // Sensor3Defined
+            // Sesnor3Defined
             // 
-            this.Sensor3Defined.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.Sensor3Defined.Enabled = false;
-            this.Sensor3Defined.Location = new System.Drawing.Point(101, 16);
-            this.Sensor3Defined.Name = "Sensor3Defined";
-            this.Sensor3Defined.Size = new System.Drawing.Size(73, 20);
-            this.Sensor3Defined.TabIndex = 3;
+            this.Sesnor3Defined.Location = new System.Drawing.Point(101, 16);
+            this.Sesnor3Defined.Name = "Sesnor3Defined";
+            this.Sesnor3Defined.Size = new System.Drawing.Size(60, 20);
+            this.Sesnor3Defined.TabIndex = 3;
             // 
             // Sensor3Fault
             // 
-            this.Sensor3Fault.Enabled = false;
             this.Sensor3Fault.Location = new System.Drawing.Point(101, 160);
             this.Sensor3Fault.Name = "Sensor3Fault";
             this.Sensor3Fault.Size = new System.Drawing.Size(60, 20);
@@ -804,19 +728,17 @@
             // 
             // Sensor3Previous
             // 
-            this.Sensor3Previous.Enabled = false;
             this.Sensor3Previous.Location = new System.Drawing.Point(101, 129);
             this.Sensor3Previous.Name = "Sensor3Previous";
             this.Sensor3Previous.Size = new System.Drawing.Size(60, 20);
             this.Sensor3Previous.TabIndex = 11;
             // 
-            // Sensor3PID
+            // Sesnor3PID
             // 
-            this.Sensor3PID.Enabled = false;
-            this.Sensor3PID.Location = new System.Drawing.Point(101, 42);
-            this.Sensor3PID.Name = "Sensor3PID";
-            this.Sensor3PID.Size = new System.Drawing.Size(60, 20);
-            this.Sensor3PID.TabIndex = 5;
+            this.Sesnor3PID.Location = new System.Drawing.Point(101, 42);
+            this.Sesnor3PID.Name = "Sesnor3PID";
+            this.Sesnor3PID.Size = new System.Drawing.Size(60, 20);
+            this.Sesnor3PID.TabIndex = 5;
             // 
             // label22
             // 
@@ -840,13 +762,11 @@
             // 
             this.Sensor3Online.Location = new System.Drawing.Point(101, 95);
             this.Sensor3Online.Name = "Sensor3Online";
-            this.Sensor3Online.ReadOnly = true;
             this.Sensor3Online.Size = new System.Drawing.Size(60, 20);
             this.Sensor3Online.TabIndex = 9;
             // 
             // Sensor3State
             // 
-            this.Sensor3State.Enabled = false;
             this.Sensor3State.Location = new System.Drawing.Point(101, 68);
             this.Sensor3State.Name = "Sensor3State";
             this.Sensor3State.Size = new System.Drawing.Size(60, 20);
@@ -903,10 +823,9 @@
             // 
             // Heater2Defined
             // 
-            this.Heater2Defined.Enabled = false;
             this.Heater2Defined.Location = new System.Drawing.Point(101, 16);
             this.Heater2Defined.Name = "Heater2Defined";
-            this.Heater2Defined.Size = new System.Drawing.Size(75, 20);
+            this.Heater2Defined.Size = new System.Drawing.Size(60, 20);
             this.Heater2Defined.TabIndex = 3;
             // 
             // label31
@@ -929,7 +848,6 @@
             // 
             // Heater2PID
             // 
-            this.Heater2PID.Enabled = false;
             this.Heater2PID.Location = new System.Drawing.Point(101, 42);
             this.Heater2PID.Name = "Heater2PID";
             this.Heater2PID.Size = new System.Drawing.Size(60, 20);
@@ -948,13 +866,11 @@
             // 
             this.Heater2Status.Location = new System.Drawing.Point(101, 95);
             this.Heater2Status.Name = "Heater2Status";
-            this.Heater2Status.ReadOnly = true;
             this.Heater2Status.Size = new System.Drawing.Size(60, 20);
             this.Heater2Status.TabIndex = 9;
             // 
             // Heater2State
             // 
-            this.Heater2State.Enabled = false;
             this.Heater2State.Location = new System.Drawing.Point(101, 68);
             this.Heater2State.Name = "Heater2State";
             this.Heater2State.Size = new System.Drawing.Size(60, 20);
@@ -988,10 +904,9 @@
             // 
             // Heater1Defined
             // 
-            this.Heater1Defined.Enabled = false;
             this.Heater1Defined.Location = new System.Drawing.Point(101, 16);
             this.Heater1Defined.Name = "Heater1Defined";
-            this.Heater1Defined.Size = new System.Drawing.Size(71, 20);
+            this.Heater1Defined.Size = new System.Drawing.Size(60, 20);
             this.Heater1Defined.TabIndex = 3;
             // 
             // label25
@@ -1014,7 +929,6 @@
             // 
             // Heater1PID
             // 
-            this.Heater1PID.Enabled = false;
             this.Heater1PID.Location = new System.Drawing.Point(101, 42);
             this.Heater1PID.Name = "Heater1PID";
             this.Heater1PID.Size = new System.Drawing.Size(60, 20);
@@ -1033,13 +947,11 @@
             // 
             this.Heater1Status.Location = new System.Drawing.Point(101, 95);
             this.Heater1Status.Name = "Heater1Status";
-            this.Heater1Status.ReadOnly = true;
             this.Heater1Status.Size = new System.Drawing.Size(60, 20);
             this.Heater1Status.TabIndex = 9;
             // 
             // Heater1State
             // 
-            this.Heater1State.Enabled = false;
             this.Heater1State.Location = new System.Drawing.Point(101, 68);
             this.Heater1State.Name = "Heater1State";
             this.Heater1State.Size = new System.Drawing.Size(60, 20);
@@ -1057,278 +969,42 @@
             // ReceiveData
             // 
             this.ReceiveData.Enabled = false;
-            this.ReceiveData.Location = new System.Drawing.Point(701, 408);
+            this.ReceiveData.Location = new System.Drawing.Point(701, 427);
             this.ReceiveData.Name = "ReceiveData";
-            this.ReceiveData.Size = new System.Drawing.Size(187, 28);
-            this.ReceiveData.TabIndex = 2;
+            this.ReceiveData.Size = new System.Drawing.Size(187, 46);
+            this.ReceiveData.TabIndex = 20;
             this.ReceiveData.Text = "Receive Data";
             this.ReceiveData.UseVisualStyleBackColor = true;
             this.ReceiveData.Click += new System.EventHandler(this.ReceiveData_Click);
             // 
             // SendData
             // 
-            this.SendData.Location = new System.Drawing.Point(464, 98);
+            this.SendData.Enabled = false;
+            this.SendData.Location = new System.Drawing.Point(359, 488);
             this.SendData.Name = "SendData";
-            this.SendData.Size = new System.Drawing.Size(90, 32);
-            this.SendData.TabIndex = 13;
+            this.SendData.Size = new System.Drawing.Size(187, 46);
+            this.SendData.TabIndex = 21;
             this.SendData.Text = "Send Data";
             this.SendData.UseVisualStyleBackColor = true;
-            this.SendData.Click += new System.EventHandler(this.SendData_Click);
             // 
             // FetchComp
             // 
             this.FetchComp.Location = new System.Drawing.Point(701, 311);
             this.FetchComp.Name = "FetchComp";
-            this.FetchComp.Size = new System.Drawing.Size(187, 39);
-            this.FetchComp.TabIndex = 1;
+            this.FetchComp.Size = new System.Drawing.Size(187, 46);
+            this.FetchComp.TabIndex = 22;
             this.FetchComp.Text = "Fetch Components";
             this.FetchComp.UseVisualStyleBackColor = true;
             this.FetchComp.Click += new System.EventHandler(this.FetchComp_Click);
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.Controls.Add(this.SendStopHNop);
-            this.groupBox9.Controls.Add(this.SendStartHNop);
-            this.groupBox9.Controls.Add(this.SendStopHOp);
-            this.groupBox9.Controls.Add(this.SendStartHOp);
-            this.groupBox9.Controls.Add(this.label53);
-            this.groupBox9.Controls.Add(this.label52);
-            this.groupBox9.Controls.Add(this.SendSen3);
-            this.groupBox9.Controls.Add(this.SendSen2);
-            this.groupBox9.Controls.Add(this.SendSen1);
-            this.groupBox9.Controls.Add(this.SendBypass);
-            this.groupBox9.Controls.Add(this.SendOBC);
-            this.groupBox9.Controls.Add(this.SendCompStat);
-            this.groupBox9.Controls.Add(this.label50);
-            this.groupBox9.Controls.Add(this.label49);
-            this.groupBox9.Controls.Add(this.label48);
-            this.groupBox9.Controls.Add(this.label47);
-            this.groupBox9.Controls.Add(this.label46);
-            this.groupBox9.Controls.Add(this.label34);
-            this.groupBox9.Controls.Add(this.label32);
-            this.groupBox9.Controls.Add(this.label28);
-            this.groupBox9.Controls.Add(this.SendData);
-            this.groupBox9.Enabled = false;
-            this.groupBox9.Location = new System.Drawing.Point(237, 467);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(658, 137);
-            this.groupBox9.TabIndex = 23;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Send Data";
-            // 
-            // SendSen3
-            // 
-            this.SendSen3.Location = new System.Drawing.Point(287, 109);
-            this.SendSen3.Name = "SendSen3";
-            this.SendSen3.Size = new System.Drawing.Size(59, 20);
-            this.SendSen3.TabIndex = 8;
-            // 
-            // SendSen2
-            // 
-            this.SendSen2.Location = new System.Drawing.Point(287, 65);
-            this.SendSen2.Name = "SendSen2";
-            this.SendSen2.Size = new System.Drawing.Size(59, 20);
-            this.SendSen2.TabIndex = 7;
-            // 
-            // SendSen1
-            // 
-            this.SendSen1.Location = new System.Drawing.Point(287, 23);
-            this.SendSen1.Name = "SendSen1";
-            this.SendSen1.Size = new System.Drawing.Size(59, 20);
-            this.SendSen1.TabIndex = 6;
-            // 
-            // SendBypass
-            // 
-            this.SendBypass.FormattingEnabled = true;
-            this.SendBypass.Items.AddRange(new object[] {
-            "True",
-            "False"});
-            this.SendBypass.Location = new System.Drawing.Point(78, 110);
-            this.SendBypass.Name = "SendBypass";
-            this.SendBypass.Size = new System.Drawing.Size(71, 21);
-            this.SendBypass.TabIndex = 5;
-            // 
-            // SendOBC
-            // 
-            this.SendOBC.FormattingEnabled = true;
-            this.SendOBC.Items.AddRange(new object[] {
-            "True",
-            "False"});
-            this.SendOBC.Location = new System.Drawing.Point(78, 69);
-            this.SendOBC.Name = "SendOBC";
-            this.SendOBC.Size = new System.Drawing.Size(71, 21);
-            this.SendOBC.TabIndex = 4;
-            // 
-            // SendCompStat
-            // 
-            this.SendCompStat.FormattingEnabled = true;
-            this.SendCompStat.Items.AddRange(new object[] {
-            "True",
-            "False"});
-            this.SendCompStat.Location = new System.Drawing.Point(78, 23);
-            this.SendCompStat.Name = "SendCompStat";
-            this.SendCompStat.Size = new System.Drawing.Size(71, 21);
-            this.SendCompStat.TabIndex = 3;
-            // 
-            // label50
-            // 
-            this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(357, 65);
-            this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(66, 13);
-            this.label50.TabIndex = 37;
-            this.label50.Text = "Stop H. Op.:";
-            // 
-            // label49
-            // 
-            this.label49.AutoSize = true;
-            this.label49.Location = new System.Drawing.Point(357, 26);
-            this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(63, 13);
-            this.label49.TabIndex = 70;
-            this.label49.Text = "Sart H. Op.:";
-            // 
-            // label48
-            // 
-            this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(166, 112);
-            this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(115, 13);
-            this.label48.TabIndex = 36;
-            this.label48.Text = "Sensor 3 Online Value:";
-            // 
-            // label47
-            // 
-            this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(166, 72);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(115, 13);
-            this.label47.TabIndex = 35;
-            this.label47.Text = "Sensor 2 Online Value:";
-            // 
-            // label46
-            // 
-            this.label46.AutoSize = true;
-            this.label46.Location = new System.Drawing.Point(166, 26);
-            this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(115, 13);
-            this.label46.TabIndex = 14;
-            this.label46.Text = "Sensor 1 Online Value:";
-            // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(9, 112);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(44, 13);
-            this.label34.TabIndex = 34;
-            this.label34.Text = "Bypass:";
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(6, 72);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(72, 13);
-            this.label32.TabIndex = 34;
-            this.label32.Text = "OBCommand:";
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(9, 26);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(40, 13);
-            this.label28.TabIndex = 34;
-            this.label28.Text = "Status:";
-            // 
-            // label51
-            // 
-            this.label51.AutoSize = true;
-            this.label51.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label51.Location = new System.Drawing.Point(18, 626);
-            this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(102, 31);
-            this.label51.TabIndex = 24;
-            this.label51.Text = "RID(s):";
-            // 
-            // RIDs
-            // 
-            this.RIDs.Location = new System.Drawing.Point(115, 617);
-            this.RIDs.MinimumSize = new System.Drawing.Size(60, 40);
-            this.RIDs.Multiline = true;
-            this.RIDs.Name = "RIDs";
-            this.RIDs.ReadOnly = true;
-            this.RIDs.Size = new System.Drawing.Size(665, 66);
-            this.RIDs.TabIndex = 34;
-            // 
-            // eventReport
-            // 
-            this.eventReport.Location = new System.Drawing.Point(805, 625);
-            this.eventReport.Name = "eventReport";
-            this.eventReport.Size = new System.Drawing.Size(90, 32);
-            this.eventReport.TabIndex = 14;
-            this.eventReport.Text = "Event Report";
-            this.eventReport.UseVisualStyleBackColor = true;
-            this.eventReport.Click += new System.EventHandler(this.EventReport_Click);
-            // 
-            // label52
-            // 
-            this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(505, 26);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(69, 13);
-            this.label52.TabIndex = 71;
-            this.label52.Text = "Sart H. Nop.:";
-            // 
-            // label53
-            // 
-            this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(505, 65);
-            this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(72, 13);
-            this.label53.TabIndex = 72;
-            this.label53.Text = "Stop H. Nop.:";
-            // 
-            // SendStartHOp
-            // 
-            this.SendStartHOp.Location = new System.Drawing.Point(426, 23);
-            this.SendStartHOp.Name = "SendStartHOp";
-            this.SendStartHOp.Size = new System.Drawing.Size(59, 20);
-            this.SendStartHOp.TabIndex = 9;
-            // 
-            // SendStopHOp
-            // 
-            this.SendStopHOp.Location = new System.Drawing.Point(426, 62);
-            this.SendStopHOp.Name = "SendStopHOp";
-            this.SendStopHOp.Size = new System.Drawing.Size(59, 20);
-            this.SendStopHOp.TabIndex = 10;
-            // 
-            // SendStartHNop
-            // 
-            this.SendStartHNop.Location = new System.Drawing.Point(580, 23);
-            this.SendStartHNop.Name = "SendStartHNop";
-            this.SendStartHNop.Size = new System.Drawing.Size(59, 20);
-            this.SendStartHNop.TabIndex = 11;
-            // 
-            // SendStopHNop
-            // 
-            this.SendStopHNop.Location = new System.Drawing.Point(580, 62);
-            this.SendStopHNop.Name = "SendStopHNop";
-            this.SendStopHNop.Size = new System.Drawing.Size(59, 20);
-            this.SendStopHNop.TabIndex = 12;
             // 
             // ThermalControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(919, 686);
-            this.Controls.Add(this.eventReport);
-            this.Controls.Add(this.RIDs);
-            this.Controls.Add(this.label51);
-            this.Controls.Add(this.groupBox9);
+            this.ClientSize = new System.Drawing.Size(919, 645);
             this.Controls.Add(this.FetchComp);
+            this.Controls.Add(this.SendData);
             this.Controls.Add(this.ReceiveData);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
@@ -1352,10 +1028,7 @@
             this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox9.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -1391,25 +1064,25 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox CompMinNopTemp;
         private System.Windows.Forms.Label label37;
-        private System.Windows.Forms.TextBox CompStopHeatNop;
+        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label38;
-        private System.Windows.Forms.TextBox CompStartHeatNop;
+        private System.Windows.Forms.TextBox textBox32;
         private System.Windows.Forms.Label label39;
-        private System.Windows.Forms.TextBox CompStopHeatOp;
+        private System.Windows.Forms.TextBox textBox33;
         private System.Windows.Forms.Label label40;
-        private System.Windows.Forms.TextBox CompStartHeatOp;
+        private System.Windows.Forms.TextBox textBox34;
         private System.Windows.Forms.Label label41;
-        private System.Windows.Forms.TextBox CompTCSBypass;
+        private System.Windows.Forms.TextBox CompTCSState;
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.TextBox NoValidHeaters;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.TextBox NoValidSensors;
         private System.Windows.Forms.Label label42;
-        private System.Windows.Forms.TextBox CompOBC;
+        private System.Windows.Forms.TextBox textBox35;
         private System.Windows.Forms.Label label45;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox Sensor2Defined;
-        private System.Windows.Forms.TextBox Sensor2Fault;
+        private System.Windows.Forms.TextBox Sesnor2Fault;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
@@ -1421,13 +1094,13 @@
         private System.Windows.Forms.TextBox Sensor2State;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.TextBox Sensor3Defined;
+        private System.Windows.Forms.TextBox Sesnor3Defined;
         private System.Windows.Forms.TextBox Sensor3Fault;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox Sensor3Previous;
-        private System.Windows.Forms.TextBox Sensor3PID;
+        private System.Windows.Forms.TextBox Sesnor3PID;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.TextBox Sensor3Online;
@@ -1456,32 +1129,6 @@
         private System.Windows.Forms.Button ReceiveData;
         private System.Windows.Forms.Button SendData;
         private System.Windows.Forms.Button FetchComp;
-        private System.Windows.Forms.TextBox CompTCSState;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.Label label48;
-        private System.Windows.Forms.Label label47;
-        private System.Windows.Forms.Label label46;
-        private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.TextBox SendSen3;
-        private System.Windows.Forms.TextBox SendSen2;
-        private System.Windows.Forms.TextBox SendSen1;
-        private System.Windows.Forms.ComboBox SendBypass;
-        private System.Windows.Forms.ComboBox SendOBC;
-        private System.Windows.Forms.ComboBox SendCompStat;
-        private System.Windows.Forms.Label label50;
-        private System.Windows.Forms.Label label49;
-        private System.Windows.Forms.Label label51;
-        private System.Windows.Forms.TextBox RIDs;
-        private System.Windows.Forms.Button eventReport;
-        private System.Windows.Forms.TextBox SendStopHNop;
-        private System.Windows.Forms.TextBox SendStartHNop;
-        private System.Windows.Forms.TextBox SendStopHOp;
-        private System.Windows.Forms.TextBox SendStartHOp;
-        private System.Windows.Forms.Label label53;
-        private System.Windows.Forms.Label label52;
     }
 }
 
