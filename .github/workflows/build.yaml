@@ -1,0 +1,42 @@
+name: Build Windows Executable
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    # Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Set up Visual Studio 2022
+    - name: Set up Visual Studio 2022
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.x' 
+    - name: Install MSBuild
+      run: |
+        choco install visualstudio2022buildtools --version=17.6.0.31205 -y
+        choco install visualstudio2022-workload-vctools -y
+
+    # Build the solution
+    - name: Build solution
+      run: |
+        msbuild YOUR_SOLUTION.sln /p:Configuration=Release /p:Platform=x64
+
+    # Archive the build artifacts
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: windows-build
+        path:  |
+          cpp/build/Release/*
+          GUI/bin/Release/*
