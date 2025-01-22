@@ -14,6 +14,8 @@ constexpr auto MAX_SENSORS_TEMP_DIFF	=	30;
 constexpr auto MAX_SENSOR_TEMPERATURE	=	1500;
 constexpr auto MIN_SENSOR_TEMPERATURE	=	-500;
 constexpr auto MAX_SENSOR_FLUCTUATION	=	40;
+constexpr auto INVALID_TEMP				=	-2730;
+constexpr auto MAX_SENSOR_FAULT			=	10;
 
 
 
@@ -28,21 +30,26 @@ vector<string> CompsNames = {
 // Vector checking which of 3 sensors has the highest and lowest value(0 lowest, 2 highest)
 vector<int> SortTempValues(int sensor_0, int sensor_1, int sensor_2)
 {
-	vector<int>		temps(MAX_NUMBER_SENSORS);
+	vector<int>		temps(MAX_NUMBER_SENSORS*2);
 	if (sensor_0 > sensor_1)
 	{
 		if (sensor_0 > sensor_2)
 		{
 			temps[2] = sensor_0;
+			temps[5] = 0;
 			if (sensor_1 > sensor_2)
 			{
 				temps[1] = sensor_1;
+				temps[4] = 1;
 				temps[0] = sensor_2;
+				temps[3] = 2;
 			}
 			else
 			{
 				temps[1] = sensor_2;
+				temps[4] = 2;
 				temps[0] = sensor_1;
+				temps[3] = 1;
 			}
 		}
 		else
@@ -50,6 +57,9 @@ vector<int> SortTempValues(int sensor_0, int sensor_1, int sensor_2)
 			temps[2] = sensor_2;
 			temps[1] = sensor_0;
 			temps[0] = sensor_1;
+			temps[3] = 1;
+			temps[4] = 0;
+			temps[5] = 2;
 		}
 	}
 	else
@@ -57,15 +67,20 @@ vector<int> SortTempValues(int sensor_0, int sensor_1, int sensor_2)
 		if (sensor_1 > sensor_2)
 		{
 			temps[2] = sensor_1;
+			temps[5] = 1;
 			if (sensor_0 > sensor_2)
 			{
 				temps[1] = sensor_0;
 				temps[0] = sensor_2;
+				temps[4] = 0;
+				temps[3] = 2;
 			}
 			else
 			{
 				temps[1] = sensor_2;
 				temps[0] = sensor_0;
+				temps[4] = 2;
+				temps[3] = 0;
 			}
 		}
 		else
@@ -73,6 +88,9 @@ vector<int> SortTempValues(int sensor_0, int sensor_1, int sensor_2)
 			temps[2] = sensor_2;
 			temps[1] = sensor_1;
 			temps[0] = sensor_0;
+			temps[5] = 2;
+			temps[4] = 1;
+			temps[3] = 0;
 		}
 	}
 	return temps;
@@ -82,7 +100,15 @@ vector<int> SortTempValues(int sensor_0, int sensor_1, int sensor_2)
 class Heaters
 {
 public:
-	Heaters() {}
+	Heaters() 
+	{
+		HeaterPIDNumber = -1;
+		State = false;
+		Status = false;
+		IsDefined = false;
+		RID = -1;
+		RIDSend = false;
+	}
 	//string		HeaterName; //Name		//Recheck whether it is needed
 	int			HeaterPIDNumber; // PID
 	//int OnTemp; //On temperature for heaters
@@ -91,6 +117,7 @@ public:
 	bool		Status; // on/off of the heater
 	bool		IsDefined; // Is it defined for a certain component?
 	int			RID; //RID for heater failure
+	bool		RIDSend;
 };
 
 // Sensors definition class
@@ -98,7 +125,17 @@ public:
 class Sensors
 {
 public:
-	Sensors() {}
+	Sensors() 
+	{
+		SensorPIDNumber = -1;
+		OnlineValue = INVALID_TEMP;
+		PreviousValue = INVALID_TEMP;
+		State = true;
+		FaultRate = 0;
+		IsDefined = false;
+		RID = -1;
+		RIDSend = false;
+	}
 	//string		SensorName; //Name              Recheck whether it is needed
 	int			SensorPIDNumber; //PID
 	int			OnlineValue; // online value
@@ -107,8 +144,9 @@ public:
 	int			FaultRate; // rate of fault detection 
 	bool		IsDefined; //is available for a certain component?
 	int			RID; //RID for sensor fault
+	bool		RIDSend;
 
-	bool SensorValidityCheck()			// checking all conditions for the sensor to be faulty
+	int SensorValidityCheck(int Fault)			// checking all conditions for the sensor to be faulty
 	{
 		bool	IsValid = false;
 		if (abs(OnlineValue - PreviousValue) < MAX_SENSOR_FLUCTUATION)  // gradient check
@@ -117,7 +155,7 @@ public:
 		}
 		else
 		{
-			FaultRate += 1;
+			Fault += 1;
 		}
 		if (!(OnlineValue > MAX_SENSOR_TEMPERATURE || OnlineValue < MIN_SENSOR_TEMPERATURE)) // limit check
 		{
@@ -125,13 +163,13 @@ public:
 		}
 		else
 		{
-			FaultRate += 1;
+			Fault += 1;
 		}
-		if (FaultRate > 10)
+		if (Fault > 10)
 		{
 			IsValid = false;
 		}
-		return IsValid;
+		return Fault;
 	}
 
 	void ResetFault()
@@ -145,12 +183,55 @@ public:
 class TCSComponents
 {
 public:
-	TCSComponents() {}
+	TCSComponents()
+	{
+		ComponentName = "Null";
+		ComponentPIDNumber = -1;
+		Temperature = INVALID_TEMP;
+		Status = false;
+		MaxNopTemp = INVALID_TEMP;
+		MaxOpTemp = INVALID_TEMP;
+		MinOpTemp = INVALID_TEMP;
+		MinNopTemp = INVALID_TEMP;
+		ValidSensors = MAX_NUMBER_SENSORS;
+		ValidHeaters = MAX_NUMBER_HEATERS;
+		TCSState = true;
+		OBCCommand = false;
+		for (int i = 0; i < MAX_NUMBER_SENSORS; i++)
+		{
+			sensor[i].SensorPIDNumber = -1;
+			sensor[i].OnlineValue = INVALID_TEMP;
+			sensor[i].PreviousValue = INVALID_TEMP;
+			sensor[i].State = false;
+			sensor[i].FaultRate = 0;
+			sensor[i].IsDefined = false;
+			sensor[i].RID = -1;
+			sensor[i].RIDSend = false;
+		}
+		for (int i = 0; i < MAX_NUMBER_HEATERS; i++)
+		{
+			heater[i].HeaterPIDNumber = -1;
+			heater[i].State = false;
+			heater[i].Status = false;
+			heater[i].IsDefined = false;
+			heater[i].RID = -1;
+			heater[i].RIDSend = false;
+		}
+		OBC = false;
+		RIDImplausible = -1;
+		RIDNopLimit = -1;
+		RIDOpLimit = -1;
+		RIDImpSend = false;
+		RIDOpSend = false;
+		RIDNopSend = false;
+		
+	}
+		
 
 	string		ComponentName;
 	int			ComponentPIDNumber;
-	Sensors		sensor[3]; // By default all components have at most 3 sensors
-	Heaters		heater[2]; // By default all components have at most 2 heaters
+	Sensors		sensor[MAX_NUMBER_SENSORS]; // By default all components have at most 3 sensors
+	Heaters		heater[MAX_NUMBER_HEATERS]; // By default all components have at most 2 heaters
 	int			Temperature; //Online temperature data
 	bool		Status; //On or Off
 	int			MaxNopTemp; // Maximum non-operational temperature
@@ -159,7 +240,7 @@ public:
 	int			MinNopTemp; // Minimum non operational temperature
 	bool		TCSState; //whether or not its temperature can be detected (valid sensor(s) are yet left)
 	int			ValidSensors;
-	int			ValidHeater;
+	int			ValidHeaters;
 	int			StartHeatOp; // Start heater temperature when component is on
 	int			StopHeatOp; // Stop heater temperature when component is on
 	int			StartHeatNop; // Start heater temperature when component is off
@@ -167,15 +248,20 @@ public:
 	bool		HasHeaters; //whether or not the component
 	bool		HeaterStatus;	//whether any of the component's heater(s) are on
 	bool		AlgorithmBypass;	// we can turn it on and bypass algorithm for specific component
-	bool		OBCCommand = false;	//whether OBC asked to turn on a component or not
-	bool		OBC = false;		//auxiliry variable for testing, consider removing it after establishing obc or ground connection to algorithm
+	bool		OBCCommand;	//whether OBC asked to turn on a component or not
+	bool		OBC;		//auxiliry variable for testing, consider removing it after establishing obc or ground connection to the algorithm
 	int			RIDImplausible; //RID for no sensor failure
 	int			RIDOpLimit;		//RID for out of operational range failure when component is on
 	int			RIDNopLimit;	//RID for out of non-operational range failure when component is off
+	bool		RIDOpSend;		//whether or not sending the operational RID
+	bool		RIDNopSend;		//whether or not sending the non-operational RID
+	bool		RIDImpSend;		//whether or not sending the implausible RID
+	bool		ReceiveNewHeaterData;		// whether or not new data for heater recieved
 
+	
 	bool checkBypass()
 	{
-		bool Bypass;
+		bool Bypass = false;
 		if (OBC) //After creating the method to get commands from OBC or GS, replace OBC with your own variable
 		{
 			Bypass = true;
@@ -194,13 +280,14 @@ public:
 			if (sensor[sen].IsDefined)
 			{
 				// Here the values should be set according totemperature sensor data or manual inputs
-				sensor[sen].OnlineValue = 250;
+				//sensor[sen].PreviousValue = sensor[sen].OnlineValue;
+				//sensor[sen].OnlineValue = setSensorValue();    // getting data from sensors
 			}
 		}
 	}
 	int setTemperature()
 	{
-		vector<int>		SensorTemp(MAX_NUMBER_SENSORS);
+		
 		int				CompTemp = 250;
 		if (TCSState) //if we have any valid sensor on the component
 		{
@@ -210,19 +297,34 @@ public:
 				
 				if (sensor[sen].IsDefined)
 				{
-					sensor[sen].State = sensor[sen].SensorValidityCheck();
-					if (sensor[sen].State)
+					if ((sensor[sen].SensorValidityCheck(sensor[sen].FaultRate) - sensor[sen].FaultRate) > 0 || sensor[sen].FaultRate == MAX_SENSOR_FAULT)
 					{
-						sensor[sen].OnlineValue = sensor[sen].PreviousValue;		//updating previous value
-						SensorTemp[sen] = sensor[sen].OnlineValue;					//reading online value
+						
+						sensor[sen].FaultRate = sensor[sen].SensorValidityCheck(sensor[sen].FaultRate);
+						if (sensor[sen].FaultRate > MAX_SENSOR_FAULT)
+						{
+							sensor[sen].FaultRate = MAX_SENSOR_FAULT;
+						}
+						sensor[sen].State = false;
 
-						sensor[sen].ResetFault();									// if sensor is healthy, we should reset its fault rate
 					}
 					else
 					{
+						sensor[sen].State = true;
+						
+					}
+					sensor[sen].PreviousValue = sensor[sen].OnlineValue;		//updating previous value
+					if (sensor[sen].State)
+					{
+					
+						sensor[sen].ResetFault();									// if sensor is healthy, we should reset its fault rate
+					}
+					else if (!sensor[sen].State && sensor[sen].FaultRate == MAX_SENSOR_FAULT)
+					{
 						
 						ValidSensors -= 1;											// reducing valid sensors by one
-						cout << "RID(4): sensor\t" << sensor[sen].RID << endl;
+						//cout << "RID(4): sensor\t" << sensor[sen].RID << endl;
+						sensor[sen].RIDSend = true;
 
 					}
 				}
@@ -231,71 +333,148 @@ public:
 					ValidSensors -= 1;
 				}
 			}
+			if (ValidSensors == 0)
+			{
+				TCSState = false;
+				
+			}
 		}
 		else
 		{
-			cout << "RID(3): \t"<< RIDImplausible << endl;
+			//cout << "RID(3): \t"<< RIDImplausible << endl;
+			RIDImpSend = true;
 		}
 		
 		// Based on number of valid sensors, temperature is set for the component
 		switch (ValidSensors)
 		{
-		case MAX_NUMBER_SENSORS: // 3 sensors
+		case MAX_NUMBER_SENSORS:
+		// 3 sensors
 		{
-			vector<int>		temps(MAX_NUMBER_SENSORS);		// a vector in which 0 component is the smallest, 1 is the middle, 2 is the biggest
-			temps = SortTempValues(sensor[0].OnlineValue, sensor[1].OnlineValue, sensor[2].OnlineValue);
-			Temperature = 0;
-
-			if ((temps[2] - temps[0]) < MAX_SENSORS_TEMP_DIFF)
+			vector<int>		temps(MAX_NUMBER_SENSORS*2);		// a vector in which 0 component is the smallest, 1 is the middle, 2 is the biggest the number of sensors in order is then put in 3,4 and 5th. cells
+		
+			int NewTemperature = 0;
+			int TotalValid = 0;
+			for (int i = 0; i < MAX_NUMBER_SENSORS; i++)
 			{
-				for (int counter = 0; counter < ValidSensors; counter++)
+				if (sensor[i].State)
 				{
-					Temperature += temps[counter];
+					TotalValid += 1;
 				}
-				Temperature /= ValidSensors;
+			}
+			
+			if (TotalValid == MAX_NUMBER_SENSORS)
+			{ 
+				temps = SortTempValues(sensor[0].OnlineValue, sensor[1].OnlineValue, sensor[2].OnlineValue);
+				if ((temps[2] - temps[0]) < MAX_SENSORS_TEMP_DIFF)
+				{
+					for (int counter = 0; counter < TotalValid; counter++)
+					{
+					
+						NewTemperature += temps[counter];
+					}
+					NewTemperature /= TotalValid;
+				}
+				else
+				{
+					int average = (temps[0] + temps[1] + temps[2]) / MAX_NUMBER_SENSORS;
+					if (average > temps[1])		// means that the two lower temperatures are closer to each other
+					{
+						NewTemperature = (temps[0] + temps[1]) / 2;
+					}
+					else						// means that the two bigger temperatures are closer to each other (average and maximum are closer to each other than average and minimum)
+					{
+						NewTemperature = (temps[1] + temps[2]) / 2;
+					}
+				}
+			}
+			else if (TotalValid == (MAX_NUMBER_SENSORS - 1) || (TotalValid == MAX_NUMBER_SENSORS - 2))
+			{
+				for (int i = 0; i < MAX_NUMBER_SENSORS; i++)
+				{
+					if (sensor[i].State)
+					{
+						NewTemperature += sensor[i].OnlineValue;
+					}
+				}
+				NewTemperature /= TotalValid;
 			}
 			else
 			{
-				int average = (temps[0] + temps[1] + temps[2]) / MAX_NUMBER_SENSORS;
-				if (average > temps[1])		// means that the two lower temperatures are closer to each other
-				{
-					Temperature = (temps[0] + temps[1]) / 2;
-				}
-				else						// means that the two bigger temperatures are closer to each other (average and maximum are closer to each other than average and minimum)
-				{
-					Temperature = (temps[1] + temps[2]) / 2;
-				}
+				NewTemperature = Temperature;
 			}
+			Temperature = NewTemperature;
 			break;
 		}
 		case MAX_NUMBER_SENSORS - 1: // 2 sensors
 		{
-			Temperature = 0;
-			for (int counter = 0; counter < ValidSensors; counter++)
+			
+			int NewTemperature = 0;
+			int NumberofValid = 0;
+			for (int counter = 0; counter < MAX_NUMBER_SENSORS; counter++)
 			{
-				if (sensor[counter].State)
+				if (sensor[counter].IsDefined)
 				{
-					Temperature += sensor[counter].OnlineValue;
+					if (sensor[counter].State)
+					{
+						NewTemperature += sensor[counter].OnlineValue;
+						NumberofValid += 1;
+					}
 				}
+				
 			}
-			Temperature /= ValidSensors;
+			if (!(NumberofValid == 0))
+			{
+				NewTemperature /= NumberofValid;
+				Temperature = NewTemperature;
+			}
+			else
+			{
+				NewTemperature = Temperature;
+			}
+			Temperature = NewTemperature;
 			break;
 		}
 		case MAX_NUMBER_SENSORS - 2:	// 1 sensor
 		{
-			for (int counter = 0; counter < ValidSensors; counter++)
+			int NewTemperature = 0;
+			bool Valid = false;
+			for (int counter = 0; counter < MAX_NUMBER_SENSORS; counter++)
 			{
-				if (sensor[counter].State)
+				if (sensor[counter].IsDefined)
 				{
-					Temperature = sensor[counter].OnlineValue;
+					if (sensor[counter].State)
+					{
+						NewTemperature = sensor[counter].OnlineValue;
+						Valid = true;
+					}
 				}
+				
 			}
+			if (Valid)
+			{
+				Temperature = NewTemperature;
+			}
+			else
+			{
+				NewTemperature = Temperature;
+			}
+			Temperature = NewTemperature;
 			break;
 		}
 		default:
 		{
-			TCSState = false;						// we have no valid sensor and can't detect temperature
-			Temperature = -2700;					//Invalid temperature
+			//TCSState = false;						// we have no valid sensor and can't detect temperature
+			Temperature = INVALID_TEMP;					//Invalid temperature
+			for (int i = 0; i < MAX_NUMBER_HEATERS; i++)
+			{
+				if (heater[i].IsDefined)
+				{
+					heater[i].State = false;
+					heater[i].Status = false;//cannot determine to turn on heater so we assume everything is faulty
+					heater[i].RIDSend = true;
+				}
+			}
 			break;
 		}
 		}
@@ -324,7 +503,7 @@ public:
 		*/
 		if (!OBCCommand)
 		{
-			if (HasHeaters) // has any heater
+			if (HasHeaters && TCSState) // has any heater
 			{
 				if (HeaterStatus) // heater is on
 				{
@@ -334,32 +513,30 @@ public:
 						{
 							HeaterStatus = false;
 						}
-						else if (Temperature < MinOpTemp) // It seems that heater is faulty
-						{
-							HeaterStatus = false;
-							Status = false;		// turning off component
-							cout << "RID(1):\t" << RIDOpLimit << endl;
-						}
-						else
+						else if (Temperature >= MinOpTemp && Temperature <= StopHeatOp) //normal mode
 						{
 							// Do nothing
+						}
+						else if (Temperature < MinOpTemp) // It seems that heater is faulty
+						{
+							HeaterStatus = false; //must turn off heaters and component and report faulty
+							
 						}
 					}
 					else //component is off
 					{
-						if (Temperature > StopHeatNop) //heater must be turned off
+						if (Temperature >= StopHeatNop) //heater must be turned off
 						{
 							HeaterStatus = false;
+						}
+						
+						else if (Temperature >= MinNopTemp && Temperature <= StopHeatNop) //normal mode
+						{
+							// Do nothing
 						}
 						else if (Temperature < MinNopTemp) // It seems that heater is faulty
 						{
 							HeaterStatus = false;
-
-							cout << "RID(2):\t" << RIDNopLimit << endl;
-						}
-						else
-						{
-							// Do nothing
 						}
 					}
 				}
@@ -367,38 +544,35 @@ public:
 				{
 					if (Status) //component is on
 					{
-						if (Temperature < StartHeatOp)
+						if (Temperature > StopHeatOp)
+						{
+							HeaterStatus = false;
+						}
+						
+						else if (Temperature < StartHeatOp && Temperature >= MinOpTemp)
 						{
 							HeaterStatus = true;
 						}
-						else if (Temperature > MaxOpTemp)
+						else if (Temperature < MinOpTemp)
 						{
 							HeaterStatus = false;
-							Status = false;
-							cout << "RID(1):\t" << RIDOpLimit << endl;
-						}
-						else if (Temperature >= StartHeatOp && Temperature <= MaxOpTemp)
-						{
-							
-							// Do Nothing
 						}
 
 					}
 					else //component is off
 					{
-						if (Temperature < StartHeatNop)
+						if (Temperature > StopHeatNop)
+						{
+							HeaterStatus = false;
+						}
+
+						else if (Temperature < StartHeatNop && Temperature >= MinNopTemp)
 						{
 							HeaterStatus = true;
 						}
-						else if (Temperature > MaxNopTemp)
+						else if (Temperature < MinNopTemp)
 						{
 							HeaterStatus = false;
-							Status = false;
-							cout << "RID(2):\t" << RIDNopLimit << endl;
-						}
-						else if (Temperature >= StartHeatNop && Temperature <= MaxNopTemp)
-						{
-							// Do Nothing
 						}
 
 					}
@@ -406,14 +580,15 @@ public:
 				}
 
 			}
-			else //doesn't have heaters
+			else if (!HasHeaters && TCSState) //doesn't have heaters
 			{
 				if (Status) // component is on
 				{
 					if (Temperature > MaxOpTemp || Temperature < MinOpTemp)
 					{
-						cout << "RID(1):\t" << RIDOpLimit << endl;
+						
 						Status = false;
+						RIDOpSend = true;
 					}
 
 				}
@@ -421,10 +596,15 @@ public:
 				{
 					if (Temperature > MaxNopTemp || Temperature < MinNopTemp)
 					{
-						cout << "RID(2):\t" << RIDNopLimit << endl;
+						
+						RIDNopSend = true;
 					}
 
 				}
+			}
+			else if (!TCSState) //data not available
+			{
+				//Do nothing
 			}
 		}
 		else
@@ -453,29 +633,39 @@ public:
 				int temp_split;	//variable for splitting the temperature range for two-heater components.
 				if (Status) //component is on
 				{
-					if (ValidHeater == MAX_NUMBER_HEATERS) // 2 heaters
+					if (ValidHeaters == MAX_NUMBER_HEATERS) // 2 heaters
 					{
-						temp_split = (StartHeatOp - MinOpTemp) / 2;
-						if (StartHeatOp - Temperature < temp_split) // heater 1 is valid
+						temp_split = (StartHeatOp - MinOpTemp) / MAX_NUMBER_HEATERS;
+						if ((StartHeatOp - Temperature) < temp_split) // heater 1 is valid
 						{
-							heater[0].State = true;		// turn on heater 1
-							heater[0].Status = true;
+					
+							heater[0].Status = true;	// turn on heater 1
+							heater[1].Status = false;	// make sure both heaters not turned on at the same time
 						}
-						else if ((StartHeatOp - Temperature < temp_split) && (Temperature >= MinOpTemp)) // heater 1 failed
+						else if (((StartHeatOp - Temperature) > temp_split) && (Temperature >= MinOpTemp)) // heater 1 failed
 						{
 							heater[0].State = false;	// heater 1 is faulty
 							heater[0].Status = false;	//turn off heater 1
-							cout << "RID(5): \t" << heater[0].RID << endl;
-							heater[1].State = true; // turn on heater 2
+							
+							heater[0].RIDSend = true;
+							
 							heater[1].Status = true;
-							ValidHeater -= 1;
+							ValidHeaters -= 1;
 						}
 						else if (Temperature < MinOpTemp) // heater 2 failed
 						{
-							heater[1].State = false;	// heater 2 is faulty
-							heater[1].Status = false;	//turn off heater 2
-							cout << "RID(6): \t" << heater[1].RID << endl;
-							ValidHeater -= 1;
+							
+							for (int heat = 0; heat < MAX_NUMBER_HEATERS; heat++)
+							{
+								if (heater[heat].IsDefined)
+								{
+									heater[heat].State = false; // heater  is faulty
+									heater[heat].Status = false; //turn off heater
+									heater[heat].RIDSend = true;
+								}
+							}
+							ValidHeaters = 0;
+
 						}
 						else if (Temperature > StopHeatOp) // component is warm enough
 						{
@@ -483,73 +673,79 @@ public:
 							heater[1].Status = false;	//turn off heater 2
 						}
 					}
-					else if (ValidHeater == MAX_NUMBER_HEATERS - 1) // 1 heater
+					else if (ValidHeaters == MAX_NUMBER_HEATERS - 1) // 1 heater
 					{
 						if (Temperature > StopHeatOp)// turning off heaters
 						{
-							if (heater[0].IsDefined)
+							for (int heat = 0; heat < MAX_NUMBER_HEATERS; heat++)
 							{
-								heater[0].Status = false; //turn off heater 1
-							}
-							else
-							{
-								heater[1].Status = false; //turn off heater 2
+								if (heater[heat].IsDefined)
+								{
+									heater[heat].Status = false; //turning off heaters
+								}
 							}
 						}
 						else if (Temperature < StartHeatOp && Temperature >= MinOpTemp) //turning on heaters
 						{
-							if (heater[0].IsDefined)
+							for (int heat = 0; heat < MAX_NUMBER_HEATERS; heat++)
 							{
-								heater[0].Status = true; //turn on heater 1
-							}
-							else
-							{
-								heater[1].Status = true; //turn on heater 2
+								if (heater[heat].IsDefined && heater[heat].State)
+								{
+									heater[heat].Status = true; //turning on heaters
+									break;
+								}
 							}
 						}
 						else if (Temperature < MinOpTemp) //faulty
 						{
-							if (heater[0].IsDefined)
+							for (int heat = 0; heat < MAX_NUMBER_HEATERS; heat++)
 							{
-								heater[0].Status = false; //turn off heater 1
-								heater[0].State = false;	// heater 1 is faulty
-								cout << "RID(5): \t" << heater[0].RID << endl;
+								if (heater[heat].IsDefined)
+								{
+									heater[heat].State = false; // heater 1 is faulty
+									heater[heat].Status = false; //turn off heater
+									heater[heat].RIDSend = true;
+
+								}
 							}
-							else
-							{
-								heater[1].Status = false; //turn off heater 2
-								heater[1].State = false;	// heater 2 is faulty
-								cout << "RID(6): \t" << heater[1].RID << endl;
-							}
+							
 						}
 					}
 					
 				}
 				else //component is off
 				{
-					if (ValidHeater == MAX_NUMBER_HEATERS) // 2 heaters
+					if (ValidHeaters == MAX_NUMBER_HEATERS) // 2 heaters
 					{
 						temp_split = (StartHeatNop - MinNopTemp) / 2;
-						if (StartHeatNop - Temperature < temp_split) // heater 1 is valid
+						if ((StartHeatNop - Temperature) < temp_split) // heater 1 is valid
 						{
-							heater[0].State = true;		// turn on heater 1
 							heater[0].Status = true;
+							heater[1].Status = false; //make sure both heaters do not turn on at the same time
+							
 						}
-						else if ((StartHeatNop - Temperature < temp_split) && (Temperature >= MinNopTemp)) // heater 1 failed
+						else if (((StartHeatNop - Temperature) > temp_split) && (Temperature >= MinNopTemp)) // heater 1 failed
 						{
 							heater[0].State = false;	// heater 1 is faulty
 							heater[0].Status = false;	//turn off heater 1
-							cout << "RID(5): \t" << heater[0].RID << endl;
-							heater[1].State = true; // turn on heater 2
-							heater[1].Status = true;
-							ValidHeater -= 1;
+							
+							heater[0].RIDSend = true;
+							
+							heater[1].Status = true; //turning on heater 2
+							ValidHeaters -= 1;
 						}
 						else if (Temperature < MinNopTemp) // heater 2 failed
 						{
-							heater[1].State = false;	// heater 2 is faulty
-							heater[1].Status = false;	//turn off heater 2
-							cout << "RID(6): \t" << heater[1].RID << endl;
-							ValidHeater -= 1;
+							for (int heat = 0; heat < MAX_NUMBER_HEATERS; heat++)
+							{
+								if (heater[heat].IsDefined)
+								{
+									heater[heat].State = false; // heater  is faulty
+									heater[heat].Status = false; //turn off heater
+									heater[heat].RIDSend = true;
+								}
+							}
+							ValidHeaters = 0;
 						}
 						else if (Temperature > StopHeatNop) // component is warm enough
 						{
@@ -557,22 +753,16 @@ public:
 							heater[1].Status = false;	//turn off heater 2
 						}
 					}
-					else if (ValidHeater == MAX_NUMBER_HEATERS - 1) // 1 heater
+					else if (ValidHeaters == MAX_NUMBER_HEATERS - 1) // 1 heater
 					{
 						if (Temperature > StopHeatNop)// turning off heaters
 						{
-							if (heater[0].IsDefined)
-							{
-								heater[0].Status = false; //turn off heater 1
-							}
-							else
-							{
-								heater[1].Status = false; //turn off heater 2
-							}
+							heater[0].Status = false;
+							heater[1].Status = false;
 						}
 						else if (Temperature < StartHeatNop && Temperature >= MinNopTemp) //turning on heater
 						{
-							if (heater[0].IsDefined)
+							if (heater[0].State)
 							{
 								heater[0].Status = true; //turn on heater 1
 							}
@@ -583,24 +773,122 @@ public:
 						}
 						else if (Temperature < MinNopTemp) //faulty
 						{
-							if (heater[0].IsDefined)
+							for (int heat = 0; heat < MAX_NUMBER_HEATERS; heat++)
 							{
-								heater[0].Status = false; //turn off heater 1
-								heater[0].State = false;	// heater 1 is faulty
-								cout << "RID(5): \t" << heater[0].RID << endl;
+								if (heater[heat].IsDefined)
+								{
+									heater[heat].State = false; // heater  is faulty
+									heater[heat].Status = false; //turn off heater
+									heater[heat].RIDSend = true;
+								}
 							}
-							else
-							{
-								heater[1].Status = false; //turn off heater 2
-								heater[1].State = false;	// heater 2 is faulty
-								cout << "RID(6): \t" << heater[1].RID << endl;
-							}
+							
 						}
 					}
 				}
 			}
+			else //heater must be turned off
+			{
+				if (Status) //component is on
+				{
+					if (Temperature > MaxOpTemp)   //turning off heaters and report faulty for component
+					{
+						for (int heat = 0; heat < MAX_NUMBER_HEATERS; heat++)
+						{
+							if (heater[heat].IsDefined)
+							{
+								heater[heat].Status = false; //turning off heaters
+							}
+						}
+						Status = false; //component must be turned off
+						RIDOpSend = true; //Operational limit exceeded
+					}
+					else if (Temperature > StopHeatOp && Temperature <= MaxOpTemp) //just turning off heaters
+					{
+						for (int heat = 0; heat < MAX_NUMBER_HEATERS; heat++)
+						{
+							if (heater[heat].IsDefined)
+							{
+								heater[heat].Status = false; //turning off heaters
+								
+							}
+						}
+						
+					}
+					else if (Temperature < MinOpTemp) // turning off heaters and report faluty for both heaters and component
+					{
+						for (int heat = 0; heat < MAX_NUMBER_HEATERS; heat++)
+						{
+							if (heater[heat].IsDefined)
+							{
+								heater[heat].Status = false; //turning off heaters
+								heater[heat].State = false; // reporting faulty
+								heater[heat].RIDSend = true; //heaters are reported as faulty
+							}
+						}
+						Status = false; //component must be turned off
+						RIDOpSend = true; //Operational limit exceeded
+					}
+				}
+				else //component is off
+				{
+					if (Temperature > MaxNopTemp)   //turning off heaters and report faulty for component
+					{
+						for (int heat = 0; heat < MAX_NUMBER_HEATERS; heat++)
+						{
+							if (heater[heat].IsDefined)
+							{
+								heater[heat].Status = false; //turning off heaters
+							}
+						}
+						
+						RIDNopSend = true; //Non operational limit exceeded
+					}
+					else if (Temperature > StopHeatNop && Temperature <= MaxNopTemp) //just turning off heaters
+					{
+						for (int heat = 0; heat < MAX_NUMBER_HEATERS; heat++)
+						{
+							if (heater[heat].IsDefined)
+							{
+								heater[heat].Status = false; //turning off heaters
+
+							}
+						}
+
+					}
+					else if (Temperature < MinNopTemp) // turning off heaters and report faluty for both heaters and component
+					{
+						for (int heat = 0; heat < MAX_NUMBER_HEATERS; heat++)
+						{
+							if (heater[heat].IsDefined)
+							{
+								heater[heat].Status = false; //turning off heaters
+								heater[heat].State = false; // reporting faulty
+								heater[heat].RIDSend = true; //heaters are reported as faulty
+							}
+						}
+						
+						RIDNopSend = true; //Non operational limit exceeded
+					}
+
+
+
+				}
+
+			}
+			
 		}
 	}
+	
+	/*enabling copy paste between objects. for instance: 
+	TCSComponents a;
+	... some changes to a's properties take place here
+	TCSComponents b;
+	b = a;	values and properties are set for b from a
+	*/
+	TCSComponents(const TCSComponents& other) = default;
+	TCSComponents& operator=(const TCSComponents& other) = default;
+	
 };
 
 // Define the component structure
@@ -653,6 +941,7 @@ struct HeatsData {
 int parseSensBinaryData(TCSComponents& Component, int num, int sensor_number) {
 	int recordSize = sizeof(SensData);
 	int numRecords = sens_bin_len / recordSize;
+	
 
 
 	SensData* record = (SensData*)(sens_bin + num * recordSize);
@@ -671,12 +960,13 @@ int parseSensBinaryData(TCSComponents& Component, int num, int sensor_number) {
 int parseHeatsBinaryData(TCSComponents& Component, int num, int heater_number) {
 	int recordSize = sizeof(HeatsData);
 	int numRecords = heats_bin_len / recordSize;
-
+	
 	HeatsData* record = (HeatsData*)(heats_bin + num * recordSize);
 	Component.heater[heater_number].HeaterPIDNumber = record->HeaterPID;				//PID
 	Component.heater[heater_number].State = (bool)record->State;						//whether or not the heater is ok
 	Component.heater[heater_number].Status = (bool)record->Status;						//on/off
-	Component.sensor[heater_number].RID = record->RID;									//RID
+	Component.heater[heater_number].RID = record->RID;									//RID
+	
 
 
 	num += 1;
@@ -688,9 +978,14 @@ void InitializeData(vector<TCSComponents>& AllComponents) {
 	int recordSize = sizeof(CompsData);
 	int numRecords = comps_bin_len / recordSize;
 
+	int recordSizeHeat		= sizeof(HeatsData);
+	int numRecordsHeat		= heats_bin_len / recordSizeHeat;
+	int heaterNumber		= 0;
+	
+
 	
 	int sensorNumber = 0;
-	int heaterNumber = 0;
+	
 	for (int i = 0; i < numRecords; i++) {
 		CompsData* record = (CompsData*)(comps_bin + i * recordSize);
 
@@ -704,14 +999,18 @@ void InitializeData(vector<TCSComponents>& AllComponents) {
 			if (AllComponents[i].sensor[sensor].IsDefined)
 			{
 				sensorNumber = parseSensBinaryData(AllComponents[i], sensorNumber, sensor);
+				
+				
 			}
 		}
+		
 		AllComponents[i].heater[0].IsDefined = (bool)record->Heater1;	//validity of heater 1
 		AllComponents[i].heater[1].IsDefined = (bool)record->Heater2;	//validity of heater 2
 		for (int heater = 0; heater < MAX_NUMBER_HEATERS; heater++)
 		{
 			if (AllComponents[i].heater[heater].IsDefined)
 			{
+				
 				heaterNumber = parseHeatsBinaryData(AllComponents[i], heaterNumber, heater);
 			}
 		}
@@ -722,7 +1021,7 @@ void InitializeData(vector<TCSComponents>& AllComponents) {
 		AllComponents[i].MinNopTemp = record->MinNopTemp;					//minimum non operational temperature
 		AllComponents[i].Status = (bool)record->STATUS;						// On/Off
 		AllComponents[i].TCSState = (bool)record->TCSState;					//whehther or not there are non faulty sensors available
-		AllComponents[i].ValidHeater = record->ValidHeaters;				//Number of valid heaters
+		AllComponents[i].ValidHeaters = record->ValidHeaters;				//Number of valid heaters
 		AllComponents[i].ValidSensors = record->ValidSensor;				//Number of valid sensors
 		AllComponents[i].StartHeatOp = record->StartHeatOp;						//temperature below which heater starts (component is on)
 		AllComponents[i].StopHeatOp = record->StopHeatOp;						//temperature above which heater stops (component is on)
@@ -737,7 +1036,12 @@ void InitializeData(vector<TCSComponents>& AllComponents) {
 	}
 
 	
-} //
+} 
+
+void RuntimeInitialize(vector<TCSComponents>& New, vector<TCSComponents>& Old)
+{
+	Old = New;
+}
 
 
 
