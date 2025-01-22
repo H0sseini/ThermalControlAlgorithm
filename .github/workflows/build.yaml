@@ -27,9 +27,9 @@ jobs:
       run: |
         choco install visualstudio2022buildtools --version=17.6.0.31205 -y
         choco install visualstudio2022-workload-vctools -y
-        
-    # Set up MSBuild environment
-        - name: Set up MS Build
+
+      # Set up MSBuild environment
+      - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v1
 
       # Optional: Verify MSBuild version
