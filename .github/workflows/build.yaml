@@ -1,0 +1,59 @@
+name: Build C++ DLL and C# GUI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    # Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Set up Visual Studio 2022
+    - name: Set up Visual Studio 2022
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.x' # Adjust if using .NET 5 or other versions
+
+    - name: Install MSBuild and C++ Tools
+      run: |
+        choco install visualstudio2022buildtools --version=17.6.0.31205 -y
+        choco install visualstudio2022-workload-vctools -y
+
+      # Set up MSBuild environment
+    - name: Set up MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+      # Optional: Verify MSBuild version
+    - name: Verify MSBuild installation
+      run: msbuild /version
+        
+    # Build the C++ project
+    - name: Build C++ DLL
+      run: |
+        msbuild ./cpp/ThermalControlAlgorithm/ThermalControlAlgorithm.vcxproj /p:Configuration=Release /p:Platform=x64
+
+    # Build the C# GUI project
+    - name: Build C# GUI
+      run: |
+        msbuild ./GUI/ThermalGUI/ThermalGUI.sln /p:Configuration=Release /p:Platform=x64
+
+    # Copy the C++ DLL to the GUI project's output directory
+    - name: Copy C++ DLL to GUI Output
+      run: |
+        copy ./cpp/ThermalControlAlgorithm/Release/ThermalControlAlgorithm.dll ./GUI/ThermalGUI/ThermalGUI/bin/Release/
+
+    # Archive the GUI executable (and any required DLLs)
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: windows-gui
+        path: ./GUI/ThermalGUI/ThermalGUI/bin/Release
