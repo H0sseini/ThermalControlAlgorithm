@@ -1,12 +1,14 @@
 
-//#include <iostream>
+#include <iostream>
 #include <string>
 //#include <chrono>
 #include <thread>
 #include "TCSInit.h"
 
 constexpr auto TCS_RESET_TIME = 1800;	// seconds to reset everything in TCS
-constexpr auto TCS_RUN_INTERVAL = 10; //seconds to run the tcs code. this parameter is sent to c# for visualization)
+extern "C" {
+	__declspec(dllexport) constexpr auto TCS_RUN_INTERVAL = 10; //seconds to run the tcs code. this parameter is sent to c# for visualization)
+}
 
 
 int recordSize = sizeof(CompsData);
@@ -53,6 +55,8 @@ void TCS(vector<TCSComponents>& tcsComponents)
 			// Do nothing. just report the temperature
 		}
 	}
+	
+	cout << "TCS called" << endl;
 	
 }
 
@@ -438,8 +442,7 @@ extern "C" __declspec(dllexport) int mainFunc()
 	
 	
 	//Initializing components
-	//cout << "initializing" << endl;
-	InitializeData(tcsComponents);
+	cout << "initializing" << endl;
 	InitializeData(tcsBackup);
 	tcsComponents = tcsBackup;
 	RIDsize = GetRIDSize();
@@ -456,9 +459,8 @@ extern "C" __declspec(dllexport) int mainFunc()
 		});
 	thread reset_tcs([&]() {
 		while (true) {
-			//cout << "TCS Reset." << endl;
+			cout << "TCS Reset." << endl;
 			tcsComponents = tcsBackup;
-
 			
 			this_thread::sleep_for(chrono::seconds(TCS_RESET_TIME));
 		}
