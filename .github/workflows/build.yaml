@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # Updated to latest version
 
       # Set up MSBuild environment (for Visual Studio 2019)
       - name: Set up MSBuild (VS2019)
@@ -42,9 +42,9 @@ jobs:
       - name: Build C# Project (.NET Framework 4.6.1)
         run: msbuild path/to/solution.sln /p:Configuration=Release /p:Platform="Any CPU" /p:Prefer32Bit=true
 
-      # Optional: Upload executables and DLLs as artifacts
+      # Upload executables and DLLs as artifacts
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Executables
           path: |
