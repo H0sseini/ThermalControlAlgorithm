@@ -18,15 +18,15 @@ jobs:
       uses: actions/checkout@v3
 
     # Set up Visual Studio 2022
-    - name: Set up Visual Studio 2022
+    - name: Set up Visual Studio 2019
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '6.x' # Adjust if using .NET 5 or other versions
+        dotnet-version: '4.6.1' # Adjust if using .NET 5 or other versions
 
     - name: Install MSBuild and C++ Tools
       run: |
-        choco install visualstudio2022buildtools --version=17.6.0.31205 -y
-        choco install visualstudio2022-workload-vctools -y
+        choco install visualstudio2019buildtools --version=16.11.41 -y
+        choco install visualstudio2019-workload-vctools -y
 
       # Set up MSBuild environment
     - name: Set up MSBuild
@@ -39,12 +39,12 @@ jobs:
     # Build the C++ project
     - name: Build C++ DLL
       run: |
-        msbuild ./cpp/ThermalControlAlgorithm/ThermalControlAlgorithm.vcxproj /p:Configuration=Release /p:Platform=x64
+        msbuild ./cpp/ThermalControlAlgorithm/ThermalControlAlgorithm.vcxproj /p:Configuration=Release /p:Platform=x86
 
     # Build the C# GUI project
     - name: Build C# GUI
       run: |
-        msbuild ./GUI/ThermalGUI/ThermalGUI.sln /p:Configuration=Release /p:Platform=x64
+        msbuild ./GUI/ThermalGUI/ThermalGUI.sln /p:Configuration=Release /p:Platform=x86
 
     # Copy the C++ DLL to the GUI project's output directory
     - name: Copy C++ DLL to GUI Output
