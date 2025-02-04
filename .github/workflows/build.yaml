@@ -1,4 +1,4 @@
-name: Build C++ and C# for the Project
+name: Build C++ and C# Project
 
 on:
   push:
