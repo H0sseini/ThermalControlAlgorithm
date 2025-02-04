@@ -35,11 +35,11 @@ jobs:
 
       # ✅ Build the C++ project (force x86 for 32-bit compatibility)
       - name: Build C++ Project
-        run: msbuild path/to/project.vcxproj /p:Configuration=Release /p:Platform=x86
+        run: msbuild ./cpp/ThermalControlAlgorithm/ThermalControlAlgorithm.vcxproj /p:Configuration=Release /p:Platform=x86
 
       # ✅ Build the C# project targeting .NET Framework 4.6.1 and 32-bit
       - name: Build C# Project (.NET Framework 4.6.1)
-        run: msbuild path/to/solution.sln /p:Configuration=Release /p:Platform="Any CPU" /p:Prefer32Bit=true
+        run: msbuild ./GUI/ThermalGUI.sln /p:Configuration=Release /p:Platform="Any CPU" /p:Prefer32Bit=true
 
       # ✅ Upload executables and DLLs as artifacts
       - name: Upload artifacts
