@@ -31,7 +31,7 @@ jobs:
         uses: nuget/setup-nuget@v1
 
       - name: Restore NuGet Packages
-        run: nuget restore path/to/solution.sln
+        run: nuget restore ./GUI/ThermalGUI.sln
 
       # ✅ Build the C++ project (force x86 for 32-bit compatibility)
       - name: Build C++ Project
