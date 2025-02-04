@@ -109,8 +109,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(TargetDir)ThermalControlAlgorithm.dll" "$(SolutionDir)..\GUI\ThermalGUI\ThermalGUI\bin\Release\"
-copy "$(TargetDir)ThermalControlAlgorithm.dll" "$(SolutionDir)..\GUI\ThermalGUI\ThermalGUI\bin\Debug\"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
