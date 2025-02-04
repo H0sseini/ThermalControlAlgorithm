@@ -44,7 +44,7 @@ jobs:
       - name: Build C# Project
         run: msbuild ./GUI/ThermalGUI.sln /p:Configuration=Release /p:Platform="Any CPU" /p:Prefer32Bit=true
 
-      # ✅ Upload executables as artifacts and finalizing
+      # ✅ Upload executables as artifacts
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
