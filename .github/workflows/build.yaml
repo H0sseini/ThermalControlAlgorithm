@@ -34,7 +34,7 @@ jobs:
           if (!(Test-Path "GUI/ThermalGUI/ThermalGUI/bin/Release")) { New-Item -ItemType Directory -Path "GUI/ThermalGUI/ThermalGUI/bin/Release" }
           if (!(Test-Path "GUI/ThermalGUI/ThermalGUI/bin/Debug")) { New-Item -ItemType Directory -Path "GUI/ThermalGUI/ThermalGUI/bin/Debug" }
 
-      # ✅ Copy DLL from C++ project to C# bin folders
+      # ✅ Copy DLL from C++ project to C# bin folders (can skip this)
       - name: Copy C++ DLL to C# Project
         run: |
           Copy-Item -Path "cpp/ThermalControlAlgorithm/Release/ThermalControlAlgorithm.dll" -Destination "GUI/ThermalGUI/ThermalGUI/bin/Release/" -Force
