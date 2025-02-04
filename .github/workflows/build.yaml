@@ -10,39 +10,38 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2019  # ✅ Use Windows with Visual Studio 2019
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # Updated to latest version
+        uses: actions/checkout@v4
 
-      # Set up MSBuild environment (for Visual Studio 2019)
+      # ✅ Manually set up Visual Studio 2019 environment
       - name: Set up MSBuild (VS2019)
         uses: microsoft/setup-msbuild@v1
         with:
-          vs-version: '[16,17)'  # VS2019 range (16.x)
+          vs-version: '[16.0,16.99]'
 
-      # Set up NuGet (if needed for dependencies)
-      - name: Set up NuGet
-        uses: NuGet/setup-nuget@v1
-
-      # Restore NuGet packages (important for .NET Framework projects)
-      - name: Restore NuGet Packages
-        run: nuget restore path/to/solution.sln
-
-      # Verify MSBuild version
+      # ✅ Verify MSBuild version
       - name: Verify MSBuild installation
         run: msbuild /version
 
-      # Build the C++ project (force x86 for 32-bit compatibility)
+      # ✅ Restore NuGet Packages (for C# dependencies)
+      - name: Restore NuGet Packages
+        uses: nuget/setup-nuget@v1
+
+      - name: Restore NuGet Packages
+        run: nuget restore path/to/solution.sln
+
+      # ✅ Build the C++ project (force x86 for 32-bit compatibility)
       - name: Build C++ Project
         run: msbuild path/to/project.vcxproj /p:Configuration=Release /p:Platform=x86
 
-      # Build the C# project targeting .NET Framework 4.6.1 and 32-bit
+      # ✅ Build the C# project targeting .NET Framework 4.6.1 and 32-bit
       - name: Build C# Project (.NET Framework 4.6.1)
         run: msbuild path/to/solution.sln /p:Configuration=Release /p:Platform="Any CPU" /p:Prefer32Bit=true
 
-      # Upload executables and DLLs as artifacts
+      # ✅ Upload executables and DLLs as artifacts
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
