@@ -1,4 +1,4 @@
-name: Build C++ DLL and C# GUI
+name: Build C++ and C# Project
 
 on:
   push:
@@ -13,47 +13,40 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    # Checkout the code
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    # Set up Visual Studio 2022
-    - name: Set up Visual Studio 2019
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '4.6.1' # Adjust if using .NET 5 or other versions
+      # Set up MSBuild environment (for Visual Studio 2019)
+      - name: Set up MSBuild (VS2019)
+        uses: microsoft/setup-msbuild@v1
+        with:
+          vs-version: '[16,17)'  # VS2019 range (16.x)
 
-    - name: Install MSBuild and C++ Tools
-      run: |
-        choco install visualstudio2019buildtools --version=16.11.41 -y
-        choco install visualstudio2019-workload-vctools -y
+      # Set up NuGet (if needed for dependencies)
+      - name: Set up NuGet
+        uses: NuGet/setup-nuget@v1
 
-      # Set up MSBuild environment
-    - name: Set up MSBuild
-      uses: microsoft/setup-msbuild@v1
+      # Restore NuGet packages (important for .NET Framework projects)
+      - name: Restore NuGet Packages
+        run: nuget restore path/to/solution.sln
 
-      # Optional: Verify MSBuild version
-    - name: Verify MSBuild installation
-      run: msbuild /version
-        
-    # Build the C++ project
-    - name: Build C++ DLL
-      run: |
-        msbuild ./cpp/ThermalControlAlgorithm/ThermalControlAlgorithm.vcxproj /p:Configuration=Release /p:Platform=x86
+      # Verify MSBuild version
+      - name: Verify MSBuild installation
+        run: msbuild /version
 
-    # Build the C# GUI project
-    - name: Build C# GUI
-      run: |
-        msbuild ./GUI/ThermalGUI/ThermalGUI.sln /p:Configuration=Release /p:Platform=x86
+      # Build the C++ project (force x86 for 32-bit compatibility)
+      - name: Build C++ Project
+        run: msbuild path/to/project.vcxproj /p:Configuration=Release /p:Platform=x86
 
-    # Copy the C++ DLL to the GUI project's output directory
-    - name: Copy C++ DLL to GUI Output
-      run: |
-        copy ./cpp/ThermalControlAlgorithm/Release/ThermalControlAlgorithm.dll ./GUI/ThermalGUI/ThermalGUI/bin/Release/
+      # Build the C# project targeting .NET Framework 4.6.1 and 32-bit
+      - name: Build C# Project (.NET Framework 4.6.1)
+        run: msbuild path/to/solution.sln /p:Configuration=Release /p:Platform="Any CPU" /p:Prefer32Bit=true
 
-    # Archive the GUI executable (and any required DLLs)
-    - name: Archive build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: windows-gui
-        path: ./GUI/ThermalGUI/ThermalGUI/bin/Release
+      # Optional: Upload executables and DLLs as artifacts
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Executables
+          path: |
+            path/to/cpp/project/Release/*.dll
+            path/to/csharp/project/bin/Release/*.exe
